@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
         --black-color: #000000;
         --darkgrey-color: #767676;
         --midgrey-color: #AAAAAA;
+        --grey-color: #CDCDCD;
         --lightgrey-color: #F6F7F9;
     }
 
