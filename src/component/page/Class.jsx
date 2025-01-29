@@ -4,6 +4,7 @@ import styled from "styled-components";
 import TopBar from "../ui/TopBar";
 import userIcon from "../img/mainpage/usericon.png";
 import ClassData from "../img/class/ClassData.png";
+import LogoGray from "../img/itda_logo_gray.svg";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
@@ -12,7 +13,8 @@ export default function Class() {
     const [selectedMenu, setSelectedMenu] = useState("전체 강의실");
     const [showPopup, setShowPopup] = useState(false);
 
-    const lectures = {
+    const lectures = { "전체 강의실": [], "내 강의실": [] };
+    /*const lectures = {
         "전체 강의실": [
             { id:1, title: "2025년도 통합사회 1-1", date: "2024.12.22", description: "김인덕의 폭발적 통합사회 강의를 잇다에서 만나보세요. 2019년부터 재편된 전국 고등학생의 문의, 강사 김인덕의 통합 사회 정복기!" },
             { id:2, title: "2025년도 통합사회 1-2", date: "2025.01.02", description: "김인덕의 폭발적 통합사회 강의를 잇다에서 만나보세요. 2019년부터 재편된 전국 고등학생의 문의, 강사 김인덕의 통합 사회 정복기!" },
@@ -21,12 +23,13 @@ export default function Class() {
         ],
         "내 강의실": [
             { id: 5, title: "2025년도 통합사회 1-1", date: "2024.12.22", description: "김인덕의 폭발적 통합사회 강의를 잇다에서 만나보세요. 2019년부터 재편된 전국 고등학생의 문의, 강사 김인덕의 통합 사회 정복기!" }
-        ]
-    };
-
+        ]};
+*/
     const handleLectureClick = (id) => {
         navigate(`/class/${id}`);
     };
+
+    const lecturesCount = lectures[selectedMenu].length;
 
     return (
       <>
@@ -49,30 +52,48 @@ export default function Class() {
                 </Sidebar>
                 <Content>
                    <h2>{selectedMenu}</h2>
-                    {lectures[selectedMenu].map((lecture) => (
-                        <LectureCard key={lecture.id} onClick={() => handleLectureClick(lecture.id)}>
-                            <LectureImage src={ClassData} alt="Lecture" />
-                            <LectureInfo>
-                                <LectureTitle>{lecture.title}</LectureTitle>
-                                <LectureDate>등록 일시 {lecture.date}</LectureDate>
-                                <LectureDescription>{lecture.description}</LectureDescription>
-                            </LectureInfo>
-                        </LectureCard>
-                    ))}
+                   {lecturesCount === 0 ? (
+                        <NoLecturesMessage>
+                            <img src={LogoGray} alt="itda_logo_gray" style={{ width: "126px", height: "33px" }} />
+                            <br />
+                            현재 생성된 강의실이 없습니다 :(
+                            <br />
+                            + 버튼을 눌러 강의실을 생성해보세요!
+                        </NoLecturesMessage>
+                   ) : (
+                       lectures[selectedMenu].map((lecture) => (
+                           <LectureCard key={lecture.id} onClick={() => handleLectureClick(lecture.id)}>
+                               <LectureImage src={ClassData} alt="Lecture" />
+                               <LectureInfo>
+                                   <LectureTitle>{lecture.title}</LectureTitle>
+                                   <LectureDate>등록 일시 {lecture.date}</LectureDate>
+                                   <LectureDescription>{lecture.description}</LectureDescription>
+                               </LectureInfo>
+                           </LectureCard>
+                       ))
+                   )}
                 </Content>
                 <AddButton onClick={() => setShowPopup(!showPopup)} data-showpopup={showPopup}>
                     {showPopup ? '×' : '+'}
                 </AddButton>
                 {showPopup && (
                     <PopupMenu>
-                        <PopupItem>
-                            <OpenInNewIcon style={{ marginRight: '15px' }} />
-                            강의실 만들기
-                        </PopupItem>
-                        <PopupItem onClick={() => navigate('/participate')}>
-                            <ExitToAppIcon style={{ marginRight: '15px' }}/>
-                            강의실 들어가기
-                        </PopupItem>
+                        {lecturesCount === 0 ? (
+                            <PopupItem onClick={() => navigate('/class/create')}>
+                                강의실 만들기!
+                            </PopupItem>
+                        ) : (
+                                <>
+                                <PopupItem onClick={() => navigate('/class/create')}>
+                                    <OpenInNewIcon style={{ marginRight: '15px' }}/>
+                                    강의실 만들기
+                                </PopupItem>
+                                <PopupItem onClick={() => navigate('/participate')}>
+                                    <ExitToAppIcon style={{ marginRight: '15px' }}/>
+                                    강의실 들어가기
+                                </PopupItem>
+                            </>
+                        )}
                     </PopupMenu>
                 )}
             </Container>
@@ -215,4 +236,14 @@ const PopupItem = styled.div`
         background-color: #f0f0f0;
         border-radius: 10px;
     }
+`;
+
+const NoLecturesMessage = styled.p`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh; /* 원하는 높이로 조정 */
+    font-size: 18px;
+    color: #BABABA;
 `;
