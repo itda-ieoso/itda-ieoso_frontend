@@ -46,16 +46,16 @@ const HighlightLine = styled.div`
 const EditContainer = ({ handleAdd, index }) => {
   // 아이콘 데이터 배열
   const icons = [
-    { src: VideoIcon, alt: "Video", action: () => handleAdd("video", index) },
+    { src: VideoIcon, alt: "Video", action: () => handleAdd("video") },
     {
       src: MaterialIcon,
       alt: "Material",
-      action: () => handleAdd("material", index),
+      action: () => handleAdd("material"),
     },
     {
       src: AssignmentIcon,
       alt: "Assignment",
-      action: () => handleAdd("assignment", index),
+      action: () => handleAdd("assignment"),
     },
   ];
 

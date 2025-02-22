@@ -12,6 +12,7 @@ import EditContainer from "../../ui/curriculum/EditContainer";
 import { UsersContext } from "../../contexts/usersContext";
 import { formatLecturePeriod } from "./Curriculum";
 import EditButton from "../../ui/class/EditButton";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const SectionWrapper = styled.div`
   display: flex;
@@ -60,7 +61,9 @@ const CurriculumEdit = () => {
   const [curriculumData, setCurriculumData] = useState([]);
   const [activeLectureId, setActiveLectureId] = useState(null);
   const [activeLecture, setActiveLecture] = useState(null);
-
+  const [subSections, setSubSections] = useState(
+    activeLecture?.subSections || []
+  );
   const [editTarget, setEditTarget] = useState(null);
   const [activeSection, setActiveSection] = useState(null);
 
@@ -87,31 +90,29 @@ const CurriculumEdit = () => {
         const defaultLecture =
           lectures.find((lec) => lec.lectureId === 1) || lectures[0];
 
-        setActiveLecture({
-          ...defaultLecture,
-          subSections: [
-            ...(defaultLecture.videos || []).map((v) => ({
-              ...v,
-              title: v.videoTitle,
-              isEditing: false,
-            })),
-            ...(defaultLecture.materials || []).map((m) => ({
-              ...m,
-              title: m.materialTitle,
-              isEditing: false,
-            })),
-            ...(defaultLecture.assignments || []).map((a) => ({
-              ...a,
-              title: a.assignmentTitle,
-              isEditing: false,
-            })),
-          ].sort(
-            (a, b) => (a.contentOrderIndex || 0) - (b.contentOrderIndex || 0)
-          ), // 정렬
-        });
+        const sortedSubSections = [
+          ...(defaultLecture.videos || []).map((v) => ({
+            ...v,
+            title: v.videoTitle,
+            isEditing: false,
+          })),
+          ...(defaultLecture.materials || []).map((m) => ({
+            ...m,
+            title: m.originalFilename,
+            isEditing: false,
+          })),
+          ...(defaultLecture.assignments || []).map((a) => ({
+            ...a,
+            title: a.assignmentTitle,
+            isEditing: false,
+          })),
+        ].sort(
+          (a, b) => (a.contentOrderIndex || 0) - (b.contentOrderIndex || 0)
+        );
 
         console.log("After", defaultLecture);
-
+        setActiveLecture({ ...defaultLecture, subSections: sortedSubSections });
+        setSubSections(sortedSubSections);
         setActiveLectureId(defaultLecture.lectureId);
       } catch (error) {
         console.error("커리큘럼 불러오기 실패:", error);
@@ -121,22 +122,46 @@ const CurriculumEdit = () => {
     fetchCurriculum();
   }, [courseId, userId]);
 
-  // const updateSubSection = (index, updatedData) => {
-  //   setActiveLecture((prev) => {
-  //     if (!prev) return prev;
+  const handleDragUpdate = (update) => {
+    if (!update.destination) return;
 
-  //     const updatedSubSections = prev.subSections.map((s, i) =>
-  //       i === index ? { ...s, ...updatedData, isEditing: true } : s
-  //     );
+    const tempSubSections = Array.from(subSections);
+    const [movedItem] = tempSubSections.splice(update.source.index, 1);
+    tempSubSections.splice(update.destination.index, 0, movedItem);
 
-  //     console.log(
-  //       "[DEBUG] updateSubSection 실행됨, 최신 subSection:",
-  //       updatedSubSections[index]
-  //     );
+    setSubSections(tempSubSections);
+  };
 
-  //     return { ...prev, subSections: updatedSubSections };
-  //   });
-  // };
+  const handleDragEnd = async (result) => {
+    if (!result.destination) return;
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    const movedItem = subSections[sourceIndex];
+    const targetItem = subSections[destinationIndex];
+
+    if (!movedItem || !targetItem) return;
+
+    const contentOrderId = movedItem.contentOrderId;
+    const targetContentOrderId = targetItem.contentOrderId;
+
+    try {
+      await api.put(`/contentorders/${courseId}/${activeLectureId}/reorder`, {
+        contentOrderId,
+        targetContentOrderId,
+      });
+
+      console.log(
+        "✅ 순서 변경 완료:",
+        contentOrderId,
+        "➡",
+        targetContentOrderId
+      );
+    } catch (error) {
+      console.error("🚨 순서 변경 실패:", error);
+    }
+  };
 
   // 섹션 추가
   const handleAdd = async (type) => {
@@ -144,6 +169,7 @@ const CurriculumEdit = () => {
 
     try {
       let url = "";
+
       if (type === "video") {
         url = `/videos/${courseId}/${activeLectureId}/${userId}`;
       } else if (type === "material") {
@@ -153,7 +179,7 @@ const CurriculumEdit = () => {
       }
 
       await api.post(url);
-      location.reload(); 
+      location.reload();
     } catch (error) {
       console.error("추가 실패:", error);
     }
@@ -214,7 +240,10 @@ const CurriculumEdit = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest(".editable-section")) {
+      if (
+        !event.target.closest(".editable-section") ||
+        event.target.closest(".file-upload")
+      ) {
         console.log("[DEBUG] handleMainClick 실행됨 -> isEditing=false 처리");
 
         setActiveLecture((prev) => {
@@ -227,6 +256,7 @@ const CurriculumEdit = () => {
 
           return { ...prev, subSections: updatedSubSections };
         });
+        location.reload();
       }
     };
 
@@ -302,36 +332,65 @@ const CurriculumEdit = () => {
                 {activeLecture?.lectureDescription ?? "설명 없음"}
               </h1>
             </Section>
-            <main>
-              {activeLecture?.subSections.map((subSection, index) => (
-                <SectionWrapper
-                  key={subSection.id}
-                  onClick={(event) => handleSectionClick(index, event)}
-                >
-                  {subSection.isEditing && (
-                    <EditContainer handleAdd={handleAdd} index={index} />
-                  )}
-                  {subSection.isEditing ? (
-                    <EditableSection
-                      subSection={subSection}
-                      index={index}
-                      // updateSection={updateSubSection}
-                      className="editable-section"
-                      handleDelete={(event) => handleDelete(event, index)}
-                    />
-                  ) : (
-                    <CurriculumSection
-                      subSection={subSection}
-                      index={index}
-                      editTarget={editTarget}
-                      handleDelete={(event) => handleDelete(event, index)}
-                      handleSectionClick={handleSectionClick}
-                      // updateSection={updateSubSection}
-                    />
-                  )}
-                </SectionWrapper>
-              ))}
-            </main>
+            <DragDropContext
+              onDragUpdate={handleDragUpdate}
+              onDragEnd={handleDragEnd}
+            >
+              <Droppable droppableId="curriculum">
+                {(provided) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    {activeLecture?.subSections.map((subSection, index) => (
+                      <Draggable
+                        key={String(subSection.contentOrderId)}
+                        draggableId={String(subSection.contentOrderId)}
+                        index={index}
+                        isDragDisabled={!subSection.isEditing} // ✅ isEditing=true일 때만 드래그 가능
+                      >
+                        {(provided) => (
+                          <SectionWrapper
+                            key={subSection.id}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            onClick={(event) =>
+                              handleSectionClick(index, event)
+                            }
+                          >
+                            {subSection.isEditing && (
+                              <EditContainer
+                                handleAdd={handleAdd}
+                                index={index}
+                              />
+                            )}
+                            {subSection.isEditing ? (
+                              <EditableSection
+                                subSection={subSection}
+                                index={index}
+                                className="editable-section"
+                                handleDelete={(event) =>
+                                  handleDelete(event, index)
+                                }
+                              />
+                            ) : (
+                              <CurriculumSection
+                                subSection={subSection}
+                                index={index}
+                                editTarget={editTarget}
+                                handleDelete={(event) =>
+                                  handleDelete(event, index)
+                                }
+                                handleSectionClick={handleSectionClick}
+                              />
+                            )}
+                          </SectionWrapper>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
           </main>
         </div>
       </PageLayout>

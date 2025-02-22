@@ -162,7 +162,7 @@ const Curriculum = () => {
               })),
               ...(defaultLecture.materials || []).map((m) => ({
                 ...m,
-                title: m.materialTitle,
+                title: m.originalFilename,
                 id: m.contentOrderIndex,
                 url: m.materialFile,
                 checked: false,
@@ -212,6 +212,52 @@ const Curriculum = () => {
       })),
     }));
   }, [historyData]);
+
+  const handleMaterialClick = async (material) => {
+    const materialUrl = material.materialFile;
+
+    try {
+      const response = await api.get("/files/download", {
+        params: {
+          fileUrl: materialUrl,
+        },
+      });
+
+      const presignedUrl = response.data;
+      const fileResponse = await fetch(presignedUrl);
+
+      const arrayBuffer = await fileResponse.arrayBuffer();
+
+      const fileExtension = material.originalFilename
+        .split(".")
+        .pop()
+        .toLowerCase();
+      let mimeType = "application/octet-stream";
+
+      if (fileExtension === "pdf") {
+        mimeType = "application/pdf";
+      } else if (fileExtension === "txt") {
+        mimeType = "text/plain";
+      } else if (["jpg", "jpeg", "png", "gif"].includes(fileExtension)) {
+        mimeType = `image/${fileExtension}`;
+      } else if (fileExtension === "zip") {
+        mimeType = "application/zip";
+      }
+
+      const blob = new Blob([arrayBuffer], { type: mimeType });
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+
+      a.download = material.originalFilename;
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("파일 처리 중 오류:", error);
+    }
+  };
 
   return (
     <div style={{ display: "flex", marginTop: "1rem" }}>
@@ -278,7 +324,10 @@ const Curriculum = () => {
           <div key={sub.id}>
             <div>
               {sub.contentType === "video" && (
-                <Section style={{ display: "flex" }}>
+                <Section
+                  style={{ display: "flex" }}
+                  to={`/playing/${courseId}/${activeLectureId}/${sub.videoId}`}
+                >
                   <VideoContainer>
                     {sub.thumbnail ? (
                       <VideoThumbnail
@@ -374,14 +423,19 @@ const Curriculum = () => {
                     }}
                   />
                   <MaterialSection>
-                    <span style={{ marginRight: "0.6rem" }}>{sub.title}</span>
+                    <span
+                      style={{ marginRight: "0.6rem", cursor: "pointer" }}
+                      onClick={() => handleMaterialClick(sub)}
+                    >
+                      {sub.title}
+                    </span>
                     <span
                       style={{
                         color: "var(--main-color)",
                         fontSize: "0.9rem",
                       }}
                     >
-                      3.1MB
+                      {sub.fileSize || ""}
                     </span>
                     <img
                       src={sub.checked ? DoneIcon : UndoneIcon}
@@ -400,6 +454,7 @@ const Curriculum = () => {
                     gap: "1rem",
                     marginBottom: "2rem",
                   }}
+                  to={`/assignment/submit/${courseId}/${activeLectureId}/${sub.assignmentId}`}
                 >
                   <img
                     src={Assignment}

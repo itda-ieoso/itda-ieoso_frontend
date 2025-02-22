@@ -137,7 +137,7 @@ const CurriculumSidebar = ({
           })),
           ...(section.materials || []).map((m) => ({
             ...m,
-            title: m.materialTitle,
+            title: m.originalFilename,
             contentType: "material",
             id: m.contentOrderId,
           })),

@@ -113,6 +113,12 @@ const EditableSection = ({
       ? `${subSection.startDate} ~ ${subSection.endDate}`
       : "기간 미정"
   );
+  const [startDate, setStartDate] = useState(
+    subSection?.startDate ? new Date(subSection.startDate) : new Date()
+  );
+  const [endDate, setEndDate] = useState(
+    subSection?.endDate ? new Date(subSection.endDate) : new Date()
+  );
   const [assignmentDescription, setAssignmentDescription] = useState(
     subSection?.assignmentDescription || ""
   );
@@ -133,7 +139,12 @@ const EditableSection = ({
     const newThumbnail = getYouTubeThumbnail(videoUrl);
     if (newThumbnail) {
       setThumbnail(newThumbnail);
-      handleChange("videoUrl", videoUrl);
+
+      setVideoUrl(videoUrl);
+
+      handleEdit("videoUrl", videoUrl);
+
+      // handleChange("videoUrl", videoUrl);
     } else {
       alert("올바른 유튜브 URL을 입력하세요.");
     }
@@ -143,22 +154,25 @@ const EditableSection = ({
     const file = event.target.files[0];
     if (!file) return;
 
+    // 파일 이름 업데이트
     setUploadedFile(file.name);
 
     const formData = new FormData();
-    formData.append("files", file);
+    formData.append("file", file); // API 명세서에 맞춰 'file' 키 사용
 
     const materialId = Number(subSection.materialId);
     const userIdNum = Number(userId);
 
     try {
-      await api.patch(
+      const response = await api.patch(
         `/materials/${courseId}/${materialId}/${userIdNum}?materialTitle=${encodeURIComponent(
-          subSection.materialTitle
+          subSection.originalFilename || ""
         )}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
+
+      console.log("파일 업로드 성공:", response.data);
     } catch (error) {
       console.error("파일 업로드 실패:", error);
     }
@@ -178,6 +192,7 @@ const EditableSection = ({
       data = {
         videoTitle: field === "title" ? value : title,
         videoUrl: field === "videoUrl" ? value : videoUrl,
+        startDate: startDate,
       };
     } else if (subSection.contentType === "material") {
       const materialId = Number(subSection.materialId);
@@ -188,8 +203,9 @@ const EditableSection = ({
       url = `/assignments/${courseId}/${assignmentId}/${userIdNum}`;
       data = {
         assignmentTitle: field === "title" ? value : title,
-        assignmentDescription: field === "assignmentDescription" ? value : assignmentDescription,
-        
+        assignmentDescription:
+          field === "assignmentDescription" ? value : assignmentDescription,
+        endDate: endDate,
       };
     }
 
@@ -214,7 +230,14 @@ const EditableSection = ({
       <div style={{ width: "99%" }}>
         {subSection.contentType === "video" && (
           <div>
-            <DateTimeEdit initialStartDate={subSection.startDate ? new Date(subSection.startDate) : new Date() } />
+            <DateTimeEdit
+              field="startDate"
+              initialDate={startDate} // ✅ 공통된 initialDate로 통합
+              courseId={courseId}
+              userId={userId}
+              subSection={subSection}
+              onDateChange={(date) => setStartDate(date)} // ✅ 날짜 상태만 업데이트
+            />
             <div style={{ display: "flex" }}>
               <div style={{ alignSelf: "flex-start" }}>
                 <img
@@ -229,9 +252,9 @@ const EditableSection = ({
 
               <div style={{ display: "flex", width: "100%" }}>
                 <VideoThumbnail>
-                  {getYouTubeThumbnail(subSection.videoUrl) ? (
+                  {thumbnail ? (
                     <img
-                      src={getYouTubeThumbnail(subSection.videoUrl)}
+                      src={thumbnail}
                       alt="YouTube 썸네일"
                       style={{
                         width: "100%",
@@ -314,7 +337,14 @@ const EditableSection = ({
 
         {subSection.contentType === "material" && (
           <div>
-            <DateTimeEdit initialStartDate={subSection.startDate ? new Date(subSection.startDate) : new Date() } />
+            <DateTimeEdit
+              field="startDate"
+              initialDate={startDate} // ✅ 공통된 initialDate로 통합
+              courseId={courseId}
+              userId={userId}
+              subSection={subSection}
+              onDateChange={(date) => setStartDate(date)} // ✅ 날짜 상태만 업데이트
+            />
             <div style={{ display: "flex" }}>
               <img
                 src={Material}
@@ -327,6 +357,7 @@ const EditableSection = ({
               <MaterialSection style={{ border: "2px solid #c3c3c3" }}>
                 <label
                   style={{
+                    className:"file-upload",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -340,7 +371,7 @@ const EditableSection = ({
                     style={{ width: "1.2rem", marginRight: "1rem" }}
                   />
                   <span style={{ color: "#c3c3c3", fontWeight: "bold" }}>
-                    {subSection.uploadedFile || "파일 업로드"}
+                    {uploadedFile || "파일 업로드"}
                   </span>
                   <input
                     type="file"
@@ -355,7 +386,14 @@ const EditableSection = ({
 
         {subSection.contentType === "assignment" && (
           <div>
-            <DateTimeEdit initialEndDate={subSection.endDate ? new Date(subSection.endDate) : new Date() } />
+            <DateTimeEdit
+              field="endDate"
+              initialDate={endDate} // ✅ 공통된 initialDate로 통합
+              courseId={courseId}
+              userId={userId}
+              subSection={subSection}
+              onDateChange={(date) => setEndDate(date)} // ✅ 날짜 상태만 업데이트
+            />
             <div style={{ display: "flex", alignItems: "flex-start" }}>
               <img
                 src={Assignment}
@@ -387,10 +425,7 @@ const EditableSection = ({
                 <TextArea
                   value={assignmentDescription || ""}
                   onChange={(e) => {
-                    handleChange(
-                      "assignmentDescription",
-                      e.target.value
-                    );
+                    handleChange("assignmentDescription", e.target.value);
                   }}
                   placeholder="설명을 작성해주세요."
                 ></TextArea>

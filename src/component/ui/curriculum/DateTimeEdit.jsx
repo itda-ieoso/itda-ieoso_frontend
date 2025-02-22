@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import DateTime from "../../img/class/edit/datetime.svg";
 import Calendar from "../../img/class/edit/calendar.svg";
+import api from "../../api/api";
 
 const DateTimeContainer = styled.div`
   display: flex;
@@ -60,30 +61,56 @@ const CustomInput = forwardRef(({ value, onClick, text }, ref) => {
 });
 
 // DateTimeEdit 컴포넌트
-const DateTimeEdit = ({ initialStartDate, initialEndDate }) => {
-  const [startDate, setStartDate] = useState(
-    initialStartDate ? new Date(initialStartDate) : null
-  );
-  const [endDate, setEndDate] = useState(
-    initialEndDate ? new Date(initialEndDate) : null
-  );
-  const [error, setError] = useState("");
+const DateTimeEdit = ({
+  field,
+  initialDate,
+  courseId,
+  userId,
+  subSection,
+  onDateChange,
+}) => {
+  const [date, setDate] = useState(initialDate ? initialDate : new Date());
 
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-    if (endDate && date > endDate) {
-      setError("시작일은 마감일보다 이전이어야 합니다.");
-    } else {
-      setError("");
+  const updateDateAPI = async (field, dateValue) => {
+    if (!subSection) return;
+
+    const userIdNum = Number(subSection.userId);
+    let url = "";
+    let data = {};
+
+    // Date 변환 (toISOString)
+    const date = new Date(dateValue);
+    const kstOffset = 9 * 60 * 60 * 1000; // UTC+9 (9시간) 밀리초 단위
+    const localTime = new Date(date.getTime() + kstOffset);
+    const formattedDate = localTime.toISOString();
+
+    if (subSection.contentType === "video" && field === "startDate") {
+      const videoId = Number(subSection.videoId);
+      url = `/videos/${courseId}/${videoId}/${userId}`;
+      data = { startDate: formattedDate };
+    } else if (subSection.contentType === "assignment" && field === "endDate") {
+      const assignmentId = Number(subSection.assignmentId);
+      url = `/assignments/${courseId}/${assignmentId}/${userId}`;
+      data = { endDate: formattedDate };
+    } else if (subSection.contentType === "material" && field === "startDate") {
+      const materialId = Number(subSection.materialId);
+      const formattedDatenoz = formattedDate.replace("Z", "");
+      url = `/materials/${courseId}/${materialId}/${userId}?startDate=${formattedDatenoz}`;
+    }
+
+    try {
+      console.log(`📢 API 호출: ${url}`, data);
+      await api.patch(url, data);
+    } catch (error) {
+      console.error("날짜 업데이트 실패:", error);
     }
   };
 
-  const handleEndDateChange = (date) => {
-    if (startDate && date < startDate) {
-      setError("마감일은 시작일보다 이후이어야 합니다.");
-    } else {
-      setEndDate(date);
-    }
+  // 날짜 변경 → API 전송 + 부모 상태 업데이트
+  const handleDateChange = (newDate) => {
+    setDate(newDate);
+    updateDateAPI(field, newDate);
+    onDateChange?.(newDate); // 부모에서 상태 업데이트
   };
 
   return (
@@ -99,28 +126,17 @@ const DateTimeEdit = ({ initialStartDate, initialEndDate }) => {
               alignSelf: "center",
             }}
           />
-          {/* 업로드일 */}
-          {initialStartDate && (
-            <DatePicker
-              selected={startDate}
-              onChange={handleStartDateChange}
-              showTimeSelect
-              dateFormat="yyyy년 MM월 dd일 HH:mm"
-              customInput={<CustomInput text="업로드일" />}
-            />
-          )}
-
-          {/* 마감일 */}
-          {initialEndDate && (
-            <DatePicker
-              selected={endDate}
-              onChange={handleEndDateChange}
-              showTimeSelect
-              minDate={startDate} // 마감일은 시작일 이후만 가능
-              dateFormat="yyyy년 MM월 dd일 HH:mm"
-              customInput={<CustomInput text="마감일" />}
-            />
-          )}
+          <DatePicker
+            selected={date}
+            onChange={handleDateChange} // 📌 변경 시 즉시 API 호출
+            showTimeSelect
+            dateFormat="yyyy년 MM월 dd일 HH:mm"
+            customInput={
+              <CustomInput
+                text={field === "startDate" ? "업로드일" : "마감일"}
+              />
+            }
+          />
         </DateRow>
       </DateTimeContainer>
     </div>

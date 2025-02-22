@@ -73,7 +73,6 @@ const CurriculumSection = ({
             subSection={subSection}
             index={index}
             handleDelete={handleDelete}
-            // updateSection={updateSection}
             className="editable-section"
           />
         </div>
@@ -132,12 +131,12 @@ const CurriculumSection = ({
               />
               <MaterialSection>
                 <span style={{ marginRight: "0.6rem" }}>
-                  {subSection.materialTitle ?? "자료 없음"}
+                  {subSection.originalFilename ?? "자료 없음"}
                 </span>
                 <span
                   style={{ color: "var(--main-color)", fontSize: "0.9rem" }}
                 >
-                  3.1MB
+                  {subSection.fileSize ?? " "}
                 </span>
               </MaterialSection>
             </>
