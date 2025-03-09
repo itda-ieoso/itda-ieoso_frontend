@@ -1,11 +1,13 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr'
 import svgrPlugin from 'vite-plugin-svgr'
 
 // Vite 설정
 export default defineConfig({
   plugins: [
     react(),
+    svgr(),
     svgrPlugin({
       // 옵션 설정 (필수는 아님)
       svgrOptions: {
@@ -13,4 +15,10 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    include: ['react-icons'], // react-icons를 최적화 대상에 추가
+  },
+  build: {
+    sourcemap: false, // Source Map 비활성화
+  },
 })
