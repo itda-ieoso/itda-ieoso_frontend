@@ -299,7 +299,7 @@ const handleAssignmentTimeChange = (timeString) => {
             </FormItem>
 
             <FormItem>
-              <Label>강의 시간</Label>
+              <Label>강의 업로드 시간</Label>
               <HalfGroup>
                 <TimeGroup>
                 <DayButtonGroup>
@@ -355,7 +355,7 @@ const handleAssignmentTimeChange = (timeString) => {
             </FormItem>
 
             <FormItem>
-              <Label>과제 시간</Label>
+              <Label>과제 마감 시간</Label>
               <HalfGroup>
                 <TimeGroup>
                   <DayButtonGroup>

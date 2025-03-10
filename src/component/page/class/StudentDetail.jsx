@@ -147,7 +147,7 @@ const ClassStudents = () => {
               color: "var(--black-color)",
             }}
           >
-            학생별 과제 제출
+            학생별 과제 보기
           </h3>
           <p
             style={{
@@ -174,7 +174,7 @@ const ClassStudents = () => {
               marginLeft: "auto",
             }}
           >
-            제출 현황 보기
+            과제 보기
           </button>
         </div>
 

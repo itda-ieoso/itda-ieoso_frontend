@@ -157,8 +157,31 @@ export default function Setting() {
   };
 
   return (
-    <>
-      <AdminTopBar />
+<main
+          style={{
+            flex: 1,
+            borderRadius: "8px",
+          }}
+        >
+          <AdminTopBar />
+          <div  style={{margin:"1vh 0vh"}}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                marginLeft: "2.5vh"
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: "24px",
+                  fontWeight: "700",
+                  color: "var(--black-color)",
+                }}
+              >
+                설정
+          </h3>
+        </div>
       <Container>
         <Section>
           <Title style={{marginTop: '6px'}}>STEP 1. 강의실을 만들어볼까요?</Title>
@@ -253,7 +276,7 @@ export default function Setting() {
             </HalfGroup>
 
             <FormItem>
-              <Label>강의 시간</Label>
+              <Label>강의 업로드 시간</Label>
               <HalfGroup>
                 <TimeGroup>
                     <DayButtonGroup>
@@ -292,7 +315,7 @@ export default function Setting() {
             </FormItem>
 
             <FormItem>
-              <Label>과제 시간</Label>
+              <Label>과제 마감 시간</Label>
               <HalfGroup>
                 <TimeGroup>
                   <DayButtonGroup>
@@ -368,7 +391,8 @@ export default function Setting() {
 
         {copyModalOpen && <EntryCodeCopyModal entrycode={form.entrycode} onClose={() => setCopyModalOpen(false)} />}
       </Container>
-    </>
+      </div>
+        </main>
   );
 }
 
@@ -429,10 +453,9 @@ const CreateButton = styled.button`
 `;
 
 const Container = styled.div`
-  margin-top: 31px;
   padding: 24px 30px;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 12px;
 `;
 
 const Section = styled.div`

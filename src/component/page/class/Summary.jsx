@@ -145,12 +145,12 @@ const ClassSummary = () => {
             >
               <h3
                 style={{
-                  fontSize: "26px",
+                  fontSize: "24px",
                   fontWeight: "700",
                   color: "var(--black-color)",
                 }}
               >
-                학생별 제출 현황
+                요약
               </h3>
               <p
                 style={{

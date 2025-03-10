@@ -1,7 +1,8 @@
   import { useState, useEffect, useContext } from "react";
   import { useParams, useOutletContext } from "react-router-dom";
-  import ClassSidebar from "../../ui/class/ClassSidebar";
-  import styled from "styled-components";
+import styled from "styled-components";
+import { ModalOverlay, ModalContent } from "../../ui/modal/ModalStyles";
+  //import ClassSidebar from "../../ui/class/ClassSidebar";
   import { Section } from "../../ui/class/ClassLayout";
   import EditButton from "../../ui/class/EditButton";
   import api from "../../api/api";
@@ -11,6 +12,7 @@
   const Title = styled.h1`
     font-size: 26px;
     font-weight: bold;
+    margin-left: 1rem;
     margin-top: 0rem;
     margin-bottom: 0px;
   `;
@@ -148,54 +150,6 @@
     color: var(--black-color);
   `;
 
-  const ModalOverlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  `;
-
-  const ModalContent = styled.div`
-    background-color: white;
-    padding: 40px 80px;
-    border-radius: 8px;
-    text-align: center;
-    width: 50%;
-    max-width: 300px;
-    font-size: 1rem;
-
-    .button-container {
-      display: flex;
-      margin-top: 2rem;
-      gap: 2rem;
-      justify-content: center;
-    }
-
-    .close-button {
-      background-color: #C3C3C3;
-      color: var(--white-color);
-      border: none;
-      border-radius: 15px;
-      padding: 10px 32px;
-      font-size: 1rem;
-    }
-
-    .delete-button {
-      background-color: var(--main-color);
-      color: white;
-      border: none;
-      border-radius: 15px;
-      padding: 15px 32px;
-      font-size: 1rem;
-    }
-  `;
-
   //삭제 확인 모달
   const NoticeDeleteModal = ({ isOpen, onClose, onDelete }) => {
     NoticeDeleteModal.propTypes = {
@@ -210,9 +164,9 @@
       <ModalOverlay>
         <ModalContent>
           <h2>공지사항 삭제</h2>
-          <span>공지글을 삭제하시겠습니까? <br /> 한 번 삭제한 글은 복구할 수 없습니다.</span>
+          <span>공지사항을 삭제할까요? <br /> 한 번 삭제한 글은 복구할 수 없습니다.</span>
           <div className="button-container">
-            <button className="close-button" onClick={onClose}>닫기</button>
+            <button className="close-button" onClick={onClose}>취소</button>
             <button className="delete-button" onClick={onDelete}>삭제</button>
           </div>
         </ModalContent>
@@ -335,12 +289,11 @@
     };
 
     return (
-          <div style={{ display: "flex", marginTop: "1rem" }}>
-            <ClassSidebar style={{ marginRight: "2rem" }} />
+          <div style={{ display: "flex", marginTop: "2rem" }}>
+        {/*<ClassSidebar style={{ marginRight: "2rem" }} />*/}
             <main
               style={{
                 flex: 1,
-                padding: "1.5rem 0rem",
                 borderRadius: "8px",
               }}
             >

@@ -204,7 +204,8 @@ const ClassTopbar = ({ onCourseChange, isCreator }) => {
   };
 
   const getActiveTab = () => {
-    if (location.pathname.includes("/overview/notice")) return "overview";
+    if (location.pathname.includes("/overview/info")) return "info";
+    if (location.pathname.includes("/overview/notice")) return "notice";
     if (location.pathname.includes("/curriculum")) return "curriculum";
     if (location.pathname.includes("/admin")) return "admin";
     return "";
@@ -258,9 +259,15 @@ const ClassTopbar = ({ onCourseChange, isCreator }) => {
       >
         <TabLink
           to={`/class/${courseId}/overview/info`}
-          className={getActiveTab() === "overview" ? "active" : ""}
+          className={getActiveTab() === "info" ? "active" : ""}
         >
           개요
+        </TabLink>
+        <TabLink
+          to={`/class/${courseId}/overview/notice`}
+          className={getActiveTab() === "notice" ? "active" : ""}
+        >
+          공지
         </TabLink>
         <TabLink
           to={`/class/${courseId}/curriculum/${lectureId || 1}`}

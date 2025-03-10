@@ -1,15 +1,13 @@
 import styled from "styled-components";
 import LogoSymbol from "../../img/logo/itda_logo_symbol.svg";
-import Close from '@mui/icons-material/Close';
 
 export default function EntryCodeModal({ entrycode, onClose }) {
     return (
         <ModalBackdrop>
             <ModalWrapper>
-                <Close onClick={onClose} style={{ alignSelf: 'flex-end', cursor: 'pointer' }}/>
                 <ModalContent>
                     <img src={LogoSymbol} alt="LogoSymbol" width="60" height="60"/>
-                    <ModalText style={{marginTop: '10px'}}>강의실이 개설되었습니다!</ModalText>
+                    <ModalText style={{marginTop: '10px'}}>강의실이 개설되었어요.</ModalText>
                     <ModalSmallText>내 강의실 코드</ModalSmallText>
                     <ModalText>{entrycode}</ModalText>
                     <CloseButton onClick={onClose}>수강생 초대하기</CloseButton>
@@ -33,11 +31,10 @@ export default function EntryCodeModal({ entrycode, onClose }) {
   
   const ModalWrapper = styled.div`
   background: white;
-  padding: 20px;
+  padding: 50px 20px;
   border-radius: 20px;
   text-align: center;
   width: 40%;
-  height: 283px;
   display: flex;
   flex-direction: column;
   align-items: center;

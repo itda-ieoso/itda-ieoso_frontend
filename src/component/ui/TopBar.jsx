@@ -48,7 +48,6 @@ export default function TopBar() {
                                 <button className="login" onClick={() => navigate('/login')}>로그인</button>
                                 <UserContainer>
                                     <UserIcon src={userIcon} alt="user icon" />
-                                    <UserText>로그인하세요</UserText>
                                 </UserContainer>
                             </>
                         )}
@@ -73,7 +72,6 @@ const Header = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-right: 1vw;
 
     .header-right {
       display: flex;
@@ -115,7 +113,6 @@ const UserContainer = styled.div`
     display: flex;
     align-items: center;
     position: relative;
-    min-width: 130px;
     padding: 10px;
     border-radius: 8px;
 `;
@@ -125,10 +122,4 @@ const UserIcon = styled.img`
     height: 40px;
     margin-right: 10px;
     cursor: pointer;
-`;
-
-const UserText = styled.p`
-    color: #AAAAAA;
-    font-size: 14px;
-    margin: 0;
 `;

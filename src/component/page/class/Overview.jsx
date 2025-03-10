@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { useParams, useOutletContext, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import ClassSidebar from "../../ui/class/ClassSidebar";
-import ClassThumbnail from "../../img/class/class_thumbnail.svg";
+//import ClassSidebar from "../../ui/class/ClassSidebar";
+import ClassThumbnail from "../../img/class/class_thumbnail_background.svg";
+import VideoIcon from "../../img/icon/videocam.svg";
 import EditBtn from "../../img/class/edit_btn.svg";
 import EditedBtn from "../../img/class/edited_btn.svg";
 import { Section } from "../../ui/class/ClassLayout";
@@ -45,6 +46,7 @@ const Content = styled.div`
 const StyledQuill = styled(ReactQuill)`
   width: 100%;
   max-width: 1200px;
+  min-height: 450px;
   
   .ql-toolbar {
     order: 2;
@@ -78,15 +80,17 @@ const StyledButton = styled.a`
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1280px;
-  padding-top: 56.25%;
+  max-width: 640px;
+  height: auto;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: 380px;
     object-fit: contain;
     object-position: top;
     border-radius: 8px;
@@ -98,9 +102,19 @@ const ImageContainer = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2rem;
-    color: rgba(255, 255, 255, 0.7);
-    display: ${({ isEditing }) => (isEditing ? "block" : "none")};
+    font-size: 3.5rem;
+    color: rgba(255, 255, 255);
+    display: ${({ isEditing, hasThumbnail }) => (isEditing && !hasThumbnail ? "block" : "none")};
+    pointer-events: none;
+  }
+
+  .video-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 3.5rem;
+    display: ${({ isEditing, hasThumbnail }) => (!isEditing && !hasThumbnail ? "block" : "none")};
     pointer-events: none;
   }
 `;
@@ -253,20 +267,22 @@ const ClassOverview = () => {
   }
 
   return (
-    <div style={{ display: "flex", marginTop: "1rem" }}>
-      <ClassSidebar style={{ marginRight: "2rem" }} />
+    <div style={{ display: "flex", marginTop: "2rem" }}>
+      {/*<ClassSidebar style={{ marginRight: "2rem" }} />*/}
       <main
         style={{
           flex: 1,
-          backgroundColor: "#f9f9f9",
-          padding: "0rem",
           borderRadius: "8px",
-          marginTop: "0.5rem",
         }}
       >
-        <ImageContainer isEditing={isEditing} onClick={handleImageClick}>
+        <ImageContainer
+          isEditing={isEditing}
+          hasThumbnail={!!(newThumbnail || courseThumbnail)}
+          onClick={handleImageClick}
+        >
           <img src={newThumbnail || courseThumbnail || ClassThumbnail} alt="Class Thumbnail" />
           <span className="material-symbols-outlined camera-icon">camera_alt</span>
+          <img src={VideoIcon} alt="Video Icon" className="video-icon" />
           <input
             type="file"
             accept="image/*"

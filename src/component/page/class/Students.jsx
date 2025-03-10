@@ -239,7 +239,7 @@ const ClassStudents = () => {
               color: "var(--black-color)",
             }}
           >
-            학생별 제출 현황
+            전체 과제 보기
           </h3>
           <p
             style={{

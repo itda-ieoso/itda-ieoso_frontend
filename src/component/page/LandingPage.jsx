@@ -146,15 +146,19 @@ const ActionButtonContainer = styled.div`
     width: 100%;
     box-sizing: border-box;
     margin-top: 10px;
+    @media (max-width: 768px) {
+        justify-content: space-around;
+    }
 `;
 
 const ActionButton = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 100%;
-    min-height: 50px;
-    padding: 50px;
+    width: 30%;
+    aspect-ratio: 3 / 1;
+    max-height: 80px;
+    padding: 3vw;
     margin: 10px;
     background-color: #f5f5f5;
     border: 1px solid #ddd;
@@ -162,34 +166,51 @@ const ActionButton = styled.div`
     cursor: pointer;
     box-sizing: border-box;
     position: relative;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
 
     @media (max-width: 768px) {
-        width: 100%;
-        white-space: pre-wrap;
+        width: 30%;
     }
 `;
 
 const ButtonText = styled.span`
     position: absolute;
-    top: 20px;
+    top: 10px;
     left: 15px;
-    font-size: 1.2rem;
+    font-size: clamp(0.75rem, 2vw, 1.1rem);
     font-weight: 500;
 `;
 
 const ArrowIcon = styled.img`
     position: absolute;
-    bottom: 22px;
-    right: 22px;
-    width: 22px;
-    height: 22px;
+    bottom: 10px;
+    right: 15px;
+    width: clamp(10px, 2vw, 16px);
+    height: clamp(10px, 2vw, 16px);
 `;
 
 const AppDownloadContainer = styled.div`
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin: 40px 0px 20px 30px;
+    gap: clamp(10px, 2vw, 20px);
+    margin: 20px;
+    flex-wrap: wrap;
+`;
+
+const AppLogo = styled.img`
+    width: clamp(70px, 10vw, 100px);
+    margin-right: 10px;
+`;
+
+const AppDescription = styled.div`
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+    
+    @media (max-width: 768px) {
+        font-size: 0.8rem;
+        white-space: pre-wrap;
+    }
 `;
 
 const AppDownloadLinks = styled.div`
@@ -204,24 +225,26 @@ const AppDownloadLink = styled.a`
     text-decoration: none;
     color: black;
     background-color: #F6F7F9;
-    padding: 10px 20px;
+    padding: clamp(8px, 1.5vw, 12px) clamp(16px, 3vw, 24px);
     border-radius: 50px;
-    pointer-events: none; // 일단 링크 연겳 방지
+    pointer-events: none;
     cursor: default;
-`;
 
-const AppLogo = styled.img`
-    width: 100px;
-    margin-right: 20px;
-`;
+    img {
+        width: clamp(16px, 2vw, 24px);
+        margin-right: 10px;
 
-const AppDescription = styled.div`
-    font-size: 1rem;
-    font-weight: 700;
-    color: #333;
-    
-    @media (max-width: 768px) {
-        white-space: pre-wrap;
+        @media (max-width: 720px){
+            widht: 12px;
+        }
+    }
+
+    span {
+        font-size: 0.9rem;
+
+        @media (max-width: 720px) {
+            font-size: 0.7rem;
+        }
     }
 `;
 
@@ -246,6 +269,10 @@ const FooterLink = styled.a`
     font-weight: 500;
     //pointer-events: none; // 일단 링크 연겳 방지
     cursor: pointer;
+
+    @media (max-width: 720px){
+        font-size: 0.7rem;
+    }
 `;
 
 const FooterSection = styled.div`
@@ -267,12 +294,21 @@ const FooterTerms = styled.a`
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
+
+    @media (max-width: 720px){
+        font-size: 0.7rem;
+    }
+
 `;
 
 const FooterInfo = styled.p`
     font-size: 0.8rem;
     margin: 10px 0;
     color: #AAAAAA;
+
+    @media (max-width: 720px){
+        font-size: 0.7rem;
+    }
 `;
 
 function renderActionButtons(navigate, isLoggedIn) {
@@ -387,25 +423,25 @@ export default function LandingPage() {
         <BaseContainer>
             {renderActionButtons(navigate, isLoggedIn)}
             <AppDownloadContainer>
-            <AppLogo src={itdalogoRed} alt="itda logo" />
-            <div>
-              <AppDescription>
-                학습자와 교육자 모두가 선택하는 최상의 교육플랫폼, <Highlight>itda</Highlight>
-              </AppDescription>
-              <AppDownloadLinks>
-                <AppDownloadLink href="#">
-                  <img src={googlePlay} alt="Google Play" style={{ width: "20px", marginRight: "10px" }} />
-                  Google Play
-                </AppDownloadLink>
-                <AppDownloadLink href="#">
-                  <img src={appStore} alt="App Store" style={{ width: "20px", marginRight: "10px" }} />
-                  App Store
-                </AppDownloadLink>
-              </AppDownloadLinks>
-            </div>
-                    </AppDownloadContainer>
-            </BaseContainer>
-          <hr style={{ width: "100%", margin: "40px 0px", border: "1px solid #CDCDC" }} />
+                <AppLogo src={itdalogoRed} alt="itda logo" />
+                <div>
+                <AppDescription>
+                    학습자와 교육자 모두가 선택하는 최상의 교육플랫폼, <Highlight>itda</Highlight>
+                </AppDescription>
+                <AppDownloadLinks>
+                    <AppDownloadLink href="#">
+                        <img src={googlePlay} alt="Google Play" />
+                        <span>Google Play</span>
+                    </AppDownloadLink>
+                    <AppDownloadLink href="#">
+                        <img src={appStore} alt="App Store" />
+                        <span>App Store</span>
+                    </AppDownloadLink>
+                </AppDownloadLinks>
+                </div>
+            </AppDownloadContainer>
+        </BaseContainer>
+          <hr style={{ width: "100%", margin: "10px 0px 30px", border: "1px solid #CDCDC" }} />
           <Footer>
             <FooterLinks>
               <FooterLink href="https://www.instagram.com/eduitda?igsh=NDV3bWk0dTkzbmMz">Instagram</FooterLink>

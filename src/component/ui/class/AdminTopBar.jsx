@@ -4,6 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Delete from "../../img/icon/bin.svg";
 import Share from "../../img/icon/share.svg";
+import { ModalOverlay, ModalContent } from "../../ui/modal/ModalStyles";
 import api from "../../api/api";
 import { UsersContext } from "../../contexts/usersContext";
 
@@ -16,9 +17,10 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 27.5px;
-  font-weight: 900;
+  font-size: 26px;
+  font-weight: bold;
   color: var(--black-color);
+  margin-top: 2rem;
   margin-bottom: 1.8vh;
   margin-left:2.5vh;
 
@@ -113,62 +115,6 @@ const Icon = styled.img`
   }
 `;
 
-const DeleteModalOverlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-`;
-
-const DeleteModal = styled.div`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    min-width: 350px;
-    width: 40%;
-    height: 30%;
-    border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-`;
-
-const CloseIcon = styled.span`
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 28px;
-    cursor: pointer;
-`;
-
-const ModalTitle = styled.h2`
-    margin: 0;
-    font-size: 20px;
-    font-weight: normal;
-`;
-
-const YesButton = styled.button`
-    margin-top: 40px;
-    width: 100px;
-    height: 40px;
-    border: none;
-    border-radius: 24px;
-    background-color: var(--main-color);
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    &:hover {
-        opacity: 0.9;
-    }
-`;
-
 const AdminTopBar = ({ activeTab }) => {
   const { courseId } = useParams();
   const { user } = useContext(UsersContext);
@@ -205,7 +151,7 @@ const AdminTopBar = ({ activeTab }) => {
             to={`/class/${courseId}/admin/students`}
             className={activeTab === "students" ? "active" : ""}
           >
-            학생별 보기
+            과제 보기
           </TabLink>
           <TabLink
             to={`/class/${courseId}/admin/setting`}
@@ -233,13 +179,16 @@ const AdminTopBar = ({ activeTab }) => {
         </IconContainer>
       </NavbarContent>
       {showDeleteModal && (
-        <DeleteModalOverlay>
-          <DeleteModal>
-            <CloseIcon onClick={() => setShowDeleteModal(false)}>×</CloseIcon>
-            <ModalTitle>강의실을 삭제하시겠습니까?</ModalTitle>
-            <YesButton onClick={() => handleDeleteLecture(courseId)}>예</YesButton>
-          </DeleteModal>
-        </DeleteModalOverlay>
+        <ModalOverlay>
+          <ModalContent>
+            <h2>강의실 삭제</h2>
+            <span>강의실을 삭제할까요?</span>
+            <div className="button-container">
+              <button className="close-button" onClick={() => setShowDeleteModal(false)}>취소</button>
+              <button className="delete-button" onClick={() => handleDeleteLecture(courseId)}>삭제</button>
+            </div>
+          </ModalContent>
+        </ModalOverlay>
       )}
     </Container>
   );
