@@ -68,7 +68,10 @@ const TextArea = styled.textarea`
     outline: none;
     border: 2px solid #c3c3c3; /* 기존 border 유지 */
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
 `;
 
 const MaterialSection = styled.div`
@@ -124,14 +127,24 @@ const EditableSection = ({
   const [startDate, setStartDate] = useState(
     subSection?.startDate
       ? new Date(subSection.startDate)
+<<<<<<< HEAD
       // : new Date(lectureStartDate)
       : null
+=======
+      : // : new Date(lectureStartDate)
+        null
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
   );
   const [endDate, setEndDate] = useState(
     subSection?.endDate
       ? new Date(subSection.endDate)
+<<<<<<< HEAD
       // : new Date(lectureEndDate)
       : null
+=======
+      : // : new Date(lectureEndDate)
+        null
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
   );
   const [assignmentDescription, setAssignmentDescription] = useState(
     subSection?.assignmentDescription || ""
@@ -185,8 +198,11 @@ const EditableSection = ({
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
+<<<<<<< HEAD
 
       console.log("파일 업로드 성공:", response.data);
+=======
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
     } catch (error) {
       console.error("파일 업로드 실패:", error);
     }
@@ -206,7 +222,10 @@ const EditableSection = ({
       data = {
         videoTitle: field === "title" ? value : title,
         videoUrl: field === "videoUrl" ? value : videoUrl,
+<<<<<<< HEAD
         startDate: startDate,
+=======
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
       };
     } else if (subSection.contentType === "material") {
       const materialId = Number(subSection.materialId);
@@ -219,7 +238,10 @@ const EditableSection = ({
         assignmentTitle: field === "title" ? value : title,
         assignmentDescription:
           field === "assignmentDescription" ? value : assignmentDescription,
+<<<<<<< HEAD
         endDate: endDate,
+=======
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
       };
     }
 
@@ -242,13 +264,23 @@ const EditableSection = ({
   const handleDateChange = (date, field) => {
     if (field === "startDate") {
       setStartDate(date);
+<<<<<<< HEAD
     } else if (field === "endDate") {
       setEndDate(date);
+=======
+      handleEdit("startDate", date);
+    } else if (field === "endDate") {
+      setEndDate(date);
+      handleEdit("endDate", date);
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
     }
     onDateChange?.(index, field, date); // 상위(`CurriculumEdit`)에도 변경된 값 전달
   };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
   return (
     <Section>
       <div style={{ width: "99%" }}>
@@ -262,7 +294,11 @@ const EditableSection = ({
               subSection={subSection}
               lectureStartDate={lectureStartDate}
               lectureEndDate={lectureEndDate}
+<<<<<<< HEAD
               onDateChange={(date) => handleDateChange(date, "startDate")}// 날짜 상태만 업데이트
+=======
+              onDateChange={(date) => handleDateChange(date, "startDate")} // 날짜 상태만 업데이트
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
             />
             <div style={{ display: "flex" }}>
               <div style={{ alignSelf: "flex-start" }}>
@@ -422,7 +458,11 @@ const EditableSection = ({
               subSection={subSection}
               lectureStartDate={lectureStartDate}
               lectureEndDate={lectureEndDate}
+<<<<<<< HEAD
               onDateChange={(date) => handleDateChange(date, "endDate")}// 날짜 상태만 업데이트
+=======
+              onDateChange={(date) => handleDateChange(date, "endDate")} // 날짜 상태만 업데이트
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
             />
             <div style={{ display: "flex", alignItems: "flex-start" }}>
               <img

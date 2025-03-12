@@ -243,6 +243,10 @@ const Curriculum = () => {
   const context = useOutletContext();
   const isCreator = context?.isCreator || false;
   const [allCompleted, setAllCompleted] = useState(false);
+<<<<<<< HEAD
+=======
+  const [allCompletedLectures, setAllCompletedLectures] = useState({});
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
 
   useEffect(() => {
     async function fetchData() {
@@ -332,7 +336,13 @@ const Curriculum = () => {
         const assignmentHistory = historyData.submissions.find(
           (a) => a.assignmentId === sub.assignmentId
         );
+<<<<<<< HEAD
         isChecked = assignmentHistory?.submissionStatus === "SUBMITTED";
+=======
+        isChecked =
+          assignmentHistory?.submissionStatus === "SUBMITTED" ||
+          assignmentHistory?.submissionStatus === "LATE";
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
       }
 
       return { ...sub, checked: isChecked };
@@ -351,6 +361,7 @@ const Curriculum = () => {
 
   // 과제 제출 및 자료 다운 여부
   useEffect(() => {
+<<<<<<< HEAD
     if (!activeLecture || !historyData) return;
 
     // 현재 강의의 materials와 assignments 가져오기
@@ -378,6 +389,39 @@ const Curriculum = () => {
     // 모든 과제와 자료가 완료되었는지 여부 업데이트
     setAllCompleted(allMaterialsCompleted && allAssignmentsSubmitted);
   }, [historyData, activeLecture]);
+=======
+    if (!curriculumData || !historyData) return;
+
+    const completedStatus = {};
+
+    curriculumData.forEach((lecture) => {
+      const lectureMaterials = lecture.materials || [];
+      const lectureAssignments = lecture.assignments || [];
+
+      const allMaterialsCompleted = lectureMaterials.every((material) =>
+        historyData.materials.some(
+          (history) =>
+            history.materialId === material.materialId &&
+            history.materialHistoryStatus
+        )
+      );
+
+      const allAssignmentsSubmitted = lectureAssignments.every((assignment) =>
+        historyData.submissions.some(
+          (history) =>
+            history.assignmentId === assignment.assignmentId &&
+            (history.submissionStatus === "SUBMITTED" ||
+              history.submissionStatus === "LATE")
+        )
+      );
+
+      completedStatus[lecture.lectureId] =
+        allMaterialsCompleted && allAssignmentsSubmitted;
+    });
+
+    setAllCompletedLectures(completedStatus);
+  }, [curriculumData, historyData]);
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
 
   const handleSectionClick = (sub) => {
     if (isCreator && sub.contentType === "assignment") {
@@ -482,6 +526,10 @@ const Curriculum = () => {
         activeItem={activeLectureId}
         setActiveItem={setActiveLectureId}
         edit={false}
+<<<<<<< HEAD
+=======
+        completedLectures={allCompletedLectures}
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
       />
       <main
         style={{
@@ -509,7 +557,11 @@ const Curriculum = () => {
 
         <Section
           style={{
+<<<<<<< HEAD
             backgroundColor: allCompleted
+=======
+            backgroundColor: allCompletedLectures[activeLectureId]
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
               ? "var(--pink-color)"
               : "var(--grey-color)",
             padding: "2vh 2.5vh",
@@ -520,7 +572,15 @@ const Curriculum = () => {
           </LectureDescription>
           {!isCreator && (
             <SectionIcon
+<<<<<<< HEAD
               src={allCompleted ? DoneSection : UnselectedSection}
+=======
+              src={
+                allCompletedLectures[activeLectureId]
+                  ? DoneSection
+                  : UnselectedSection
+              }
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
               style={{
                 marginLeft: "auto",
                 marginRight: "1.35rem",
@@ -600,6 +660,7 @@ const Curriculum = () => {
                       </span>
                     </VideoDetails>
                   </div>
+<<<<<<< HEAD
                   {!isCreator && (
                     <img
                       src={sub.checked ? DoneIcon : UndoneIcon}
@@ -610,6 +671,8 @@ const Curriculum = () => {
                       }}
                     />
                   )}
+=======
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
                 </Section>
               )}
 

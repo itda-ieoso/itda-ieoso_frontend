@@ -78,7 +78,11 @@ const StyledButton = styled.a`
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
+<<<<<<< HEAD
   max-width: 1080px;
+=======
+  max-width: 1280px;
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
   padding-top: 56.25%;
 
   img {

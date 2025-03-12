@@ -7,7 +7,11 @@ import SelectedSection from "../../img/class/check/sel_sec.svg";
 import UnselectedSection from "../../img/class/check/unsel_sec.svg";
 import DoneSection from "../../img/class/check/done_sec.svg";
 import Check from "../../img/class/check/check.svg";
+<<<<<<< HEAD
 import { useState, useContext } from "react";
+=======
+import { useState, useEffect, useContext } from "react";
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
 import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import { UsersContext } from "../../contexts/usersContext";
 
@@ -21,7 +25,11 @@ const SidebarContainer = styled.aside`
   letter-spacing: -0.5px;
 
   @media (max-width: 1024px) {
+<<<<<<< HEAD
     width:17vh;
+=======
+    width: 17vh;
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
     font-size: 13px;
   }
 
@@ -74,7 +82,11 @@ const SectionHeader = styled.div`
   @media (max-width: 480px) {
     font-size: 11px;
     padding: 0.3vh 1vh;
+<<<<<<< HEAD
      height: 4.7vh;
+=======
+    height: 4.7vh;
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
   }
 `;
 
@@ -97,9 +109,14 @@ const ListItem = styled.li`
   }
 
   @media (max-width: 480px) {
+<<<<<<< HEAD
     font-size:9.5px;
       padding-left: 2vh;
 
+=======
+    font-size: 9.5px;
+    padding-left: 2vh;
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
   }
 `;
 
@@ -174,6 +191,10 @@ const CurriculumSidebar = ({
   activeItem,
   setActiveItem,
   edit,
+<<<<<<< HEAD
+=======
+  completedLectures,
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
 }) => {
   const context = useOutletContext();
   const courseData = context?.courseData || {};
@@ -230,11 +251,19 @@ const CurriculumSidebar = ({
               {!edit && !isCreator && (
                 <SectionIcon
                   src={
+<<<<<<< HEAD
                     !section.selected
                       ? UnselectedSection
                       : section.done
                       ? DoneSection
                       : SelectedSection
+=======
+                    completedLectures[section.lectureId]
+                      ? DoneSection
+                      : activeItem === section.lectureId
+                      ? SelectedSection
+                      : UnselectedSection
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
                   }
                 />
               )}

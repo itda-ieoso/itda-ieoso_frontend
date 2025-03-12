@@ -17,6 +17,11 @@ const ClassStudents = () => {
   const [columnDefs, setColumnDefs] = useState([]);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
+=======
+  const [hoveredRowIndex, setHoveredRowIndex] = useState(null);
+
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -275,10 +280,15 @@ const ClassStudents = () => {
                 padding-left: 10px;
                 
               }
+<<<<<<< HEAD
               .ag-theme-alpine .hover-highlight:hover {
                 background-color:var(--pink-color); 
                 transition: background-color 0.2s ease-in-out;
               }
+=======
+              
+          
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
             `}
           </style>
           <div
@@ -286,7 +296,11 @@ const ClassStudents = () => {
             style={{
               "--ag-header-background-color": "var(--grey-color)",
               "--ag-header-foreground-color": "black",
+<<<<<<< HEAD
               "--ag-row-hover-color": "var(--white-color)",
+=======
+              "--ag-row-hover-color": "var(--pink-color)",
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
               "--ag-font-size": "1.63vh",
               "--ag-border-radius": "13px",
               width: "100%",
@@ -309,6 +323,17 @@ const ClassStudents = () => {
               paginationPageSize={500}
               paginationPageSizeSelector={[200, 500, 1000]}
               suppressPaginationPanel={true}
+<<<<<<< HEAD
+=======
+              onRowClicked={(event) =>
+                navigate(
+                  `/class/${courseId}/admin/students/${event.data.userId}`
+                )
+              }
+              getRowStyle={() => ({
+                cursor: "pointer",
+              })}
+>>>>>>> c00a892f147e510fbed4c5ec56f131bf91a60c21
             />
           </div>
         </Section>
