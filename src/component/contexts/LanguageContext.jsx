@@ -36,6 +36,7 @@ export const LanguageProvider = ({ children }) => {
       );
 
       const translatedArray = response.data.data.split("\n");
+
       const textNodes = [];
 
       const walker = document.createTreeWalker(

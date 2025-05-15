@@ -9,15 +9,18 @@ export const login = async (credentials) => {
     // 리프레쉬 토큰 추출
     const refreshToken = response.data.refreshToken;
 
+    console.log("token:", token, "refreshtoken", refreshToken);
+
+    // login 함수
     if (token && refreshToken) {
       localStorage.setItem("token", token);
       localStorage.setItem("refreshToken", refreshToken);
 
-
       const expirationTime = new Date().getTime() + 3600000; // 1시간
-      localStorage.setItem("Expiration", expirationTime);
+      localStorage.setItem("tokenExpiration", expirationTime);
       startLogoutTimer();
     }
+
     return response;
   } catch (error) {
     console.error("로그인 API 호출 실패:", error);
@@ -32,6 +35,7 @@ export const logout = async () => {
 
     localStorage.removeItem("token");
     localStorage.removeItem("tokenExpiration");
+    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
     return response;
   } catch (error) {
@@ -74,11 +78,17 @@ export const getUsersInfo = async () => {
 // 리프레쉬 토큰
 export const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
-  if (!refreshToken) throw new Error("Refresh token이 없습니다.");
 
-  const response = await api.post("/auth/refresh", {
+  console.log(refreshToken);
+  if (!refreshToken) throw new Error("Refresh token 없음");
+
+  console.log("서버에 전달할 refreshToken:", refreshToken);
+
+  const response = await api.post("/oauth/reissuetoken", {
     refreshToken: refreshToken,
   });
 
-  return response.data.jwtToken; // 새 access token
+  console.log("서버로부터 받은 새 accessToken:", response.data?.jwtToken);
+
+  return response.data.jwtToken;
 };

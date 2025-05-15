@@ -82,20 +82,32 @@ export default function GoogleAccountLink() {
               response.headers?.Authorization ||
               response.data?.jwtToken;
 
-            const refreshToken = response.data?.refreshToken;
-
             if (newToken && newToken !== currentToken) {
-              const finalToken = newToken.startsWith("Bearer ")
-                ? newToken.replace("Bearer ", "")
-                : newToken;
-              console.log("JWT 토큰이 갱신되었습니다.");
-              localStorage.setItem("token", finalToken);
-              api.defaults.headers.common["Authorization"] =
-                `Bearer ${finalToken}`;
+              // refreshToken 역할을 하는 newToken으로 accessToken 재발급 요청
+              const refreshRes = await api.post(
+                "/oauth/reissuetoken",
+                {
+                  refreshToken: newToken,
+                },
+                {
+                  withCredentials: true,
+                },
+              );
 
-              if (refreshToken) {
-                localStorage.setItem("refreshToken", refreshToken);
+              const accessToken = refreshRes.data?.jwtToken;
+              if (!accessToken) {
+                throw new Error("AccessToken 재발급 실패");
               }
+
+              console.log("accessToken 새로 발급됨:", accessToken);
+
+              // accessToken 저장 및 설정
+              localStorage.setItem("token", accessToken);
+              api.defaults.headers.common["Authorization"] =
+                `Bearer ${accessToken}`;
+
+              // refreshToken 저장
+              localStorage.setItem("refreshToken", newToken);
 
               // 토큰 만료 시간 재설정 (1시간)
               const expirationTime = new Date().getTime() + 3600000;

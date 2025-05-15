@@ -22,6 +22,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+
 // 응답 인터셉터: 응답 후 에러 처리
 api.interceptors.response.use(
   (response) => {

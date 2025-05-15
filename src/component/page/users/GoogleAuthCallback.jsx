@@ -69,6 +69,7 @@ export default function GoogleAuthCallback() {
         // 토큰이 직접 제공된 경우
         if (token) {
           console.log("JWT 토큰이 URL에서 직접 제공됨");
+          console.log("access token", token);
           await processToken(token);
           return;
         }
@@ -80,28 +81,16 @@ export default function GoogleAuthCallback() {
           try {
             const response = await api.get(`/oauth/return/uri?code=${code}`);
 
-            if (!response.data) {
-              throw new Error("응답 데이터가 없습니다");
+            if (
+              !response.data ||
+              !response.data.jwtToken ||
+              !response.data.refreshToken
+            ) {
+              throw new Error("JWT 또는 refresh 토큰이 응답에 없습니다.");
             }
 
-            let jwtToken = null;
-            let refreshToken = null;
-
-            if (response.data.jwtToken) {
-              jwtToken = response.data.jwtToken;
-            }
-
-            if (!jwtToken) {
-              throw new Error("응답에 JWT 토큰이 없습니다");
-            }
-
-            if (response.data.refreshToken) {
-              refreshToken = response.data.refreshToken;
-            }
-
-            if (!refreshToken) {
-              throw new Error("응답에 refresh 토큰이 없습니다");
-            }
+            const jwtToken = response.data.jwtToken;
+            const refreshToken = response.data.refreshToken;
 
             await processToken(jwtToken, refreshToken);
             return;
@@ -130,8 +119,6 @@ export default function GoogleAuthCallback() {
 
     const processToken = async (token, refreshToken) => {
       try {
-        const testValue = "test-" + new Date().getTime();
-        localStorage.setItem("test-item", testValue);
         localStorage.setItem("token", token);
         localStorage.setItem("refreshToken", refreshToken);
 
