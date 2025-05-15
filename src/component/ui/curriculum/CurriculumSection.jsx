@@ -11,48 +11,57 @@ import { formatDate } from "../../page/class/Curriculum";
 
 const Section = styled.div`
   display: flex;
-  padding: 2.1vh 2.6vh;
-  border-radius: 12px;
-  margin: 1rem 0rem;
+  align-items: center;
+  padding: 1.3rem 1.5rem;
+  margin: 0.5525rem 0rem;
+  border-radius: 14px;
   background-color: #ffffff;
   position: relative;
   cursor: pointer;
-  width: 100%;
+  width: 97.5%;
+  
 
   @media (max-width: 1024px) {
-    padding: 1.5vh 1.8vh;
+    padding: 1.35vh 1.55vh;
+    width: 99%;
   }
 
   @media (max-width: 768px) {
-    border-radius: 10px;
-    margin: 0.6vh 0vh;
+    padding: 1.3vh 1.4vh;
+    width: 100%;
   }
   @media (max-width: 480px) {
     border-radius: 6px;
-    margin: 0.6vh 0vh;
+    margin: 2vh 0vh;
+    padding: 2.5vh 3vh;
+    box-sizing: border-box;
   }
 `;
 
 const CurriculumTitle = styled.h3`
-  font-size: 1.63rem;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: -0.3rem;
   margin-top: 0.5rem;
 
   @media (max-width: 1024px) {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   @media (max-width: 768px) {
-    font-size: 17px;
+    font-size: 16px;
+    margin-left: -2vh;
   }
 
   @media (max-width: 480px) {
-    font-size: 10px;
+    font-size: 12px;
+    padding: 0.3vh 1vh;
+    font-weight: 600;
   }
 
   @media (max-width: 376px) {
-    font-size: 9.4px;
+    font-size: 11px;
+    font-weight: 600;
   }
 `;
 
@@ -74,11 +83,24 @@ const VideoContainer = styled.div`
   }
 `;
 
-const VideoContents = styled.div`
-  margin-left: 2rem;
+const VideoInformation = styled.div`
+  margin-left: 2.4vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: flex-start;
+
+  @media (max-width: 1200px) {
+    margin-left: 1.8vh;
+  }
+
+  @media (max-width: 1024px) {
+    margin-left: 1.5vh;
+  }
 
   @media (max-width: 768px) {
-    margin-left: 1.8vh;
+    margin-left: 3vh;
   }
 `;
 
@@ -86,6 +108,10 @@ const VideoThumbnail = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 8px;
+
+  @media (max-width: 480px) {
+    border-radius: 4.5px;
+  }
 `;
 
 const EmptyVideoThumbnail = styled.div`
@@ -95,7 +121,7 @@ const EmptyVideoThumbnail = styled.div`
   border: solid 1.5px #c3c3c3;
 
   @media (max-width: 768px) {
-    border-radius: 6px;
+    border-radius: 4.5px;
     border: solid 1.3px #c3c3c3;
   }
 `;
@@ -119,82 +145,95 @@ const Play = styled.img`
 `;
 
 const VideoDetails = styled.p`
-  font-size: 16.5px;
-  color: var(--black-color);
+  font-size: 14px;
+  color: #909090;
   display: flex;
   align-items: center;
   gap: 1vh;
 
   @media (max-width: 1024px) {
+    font-size: 11px;
     gap: 0.5vh;
-    font-size: 11.5px;
   }
-
   @media (max-width: 768px) {
-    font-size: 9px;
+    font-size: 10px;
+    margin-left: -2vh;
+  }
+  @media (max-width: 480px) {
+    font-size: 8px;
+    margin-left: -1vh;
   }
 
-  @media (max-width: 480px) {
-    font-size: 7px;
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 1.3vh;
+
+    @media (max-width: 1024px) {
+      gap: 0.5vh;
+    }
+
+    @media (max-width: 768px) {
+      gap: 0.5vh;
+    }
   }
 `;
 
 const BlackLine = styled.span`
-  border-left: 1.5px solid black;
+  border-left: 1px solid #909090;
   height: 1rem;
-  margin-left: 1vh;
 
-  @media (max-width: 1024px) {
-    margin-left: 0.5vh;
-  }
   @media (max-width: 768px) {
-    border-left: 1px solid black;
+    border-left: 1px solid #909090;
+    height: 1.3vh;
   }
 
   @media (max-width: 480px) {
-    border-left: 0.5px solid black;
+    border-left: 0.5px solid #909090;
   }
 `;
 
 const MaterialSection = styled.div`
   display: flex;
+  align-items: center;
   background-color: var(--lightgrey-color);
   width: 100%;
-  padding: 2.2vh 2.6vh;
+  padding: 1.2rem 1.5rem;
   border-radius: 8px;
   font-size: 1.07rem;
 
   @media (max-width: 1024px) {
-    padding: 1vh 1vh;
-    font-size: 14px;
+    padding: 1.5vh;
   }
 
   @media (max-width: 768px) {
-    padding: 1vh 1vh;
-    font-size: 10.5px;
+    padding: 1.7vh;
+    width: 100%;
   }
 
   @media (max-width: 480px) {
-    border-radius: 5px;
-    padding: 1.5vh 2vh;
-    font-size: 7px;
+    border-radius: 4px;
   }
 `;
 
 const MaterialIcon = styled.img`
-  width: 2.4rem;
+  width: 3.7vh;
   margin-left: 1rem;
-  margin-right: 3rem;
+  margin-right: 1rem;
 
   @media (max-width: 1024px) {
-    width: 2.4vh;
-    margin-left: 0vh;
-    margin-right: 1.5vh;
+    width: 3.2vh;
+    margin-right: 1.1vh;
+  }
+
+  @media (max-width: 768px) {
+    width: 2.8vh;
   }
 
   @media (max-width: 480px) {
-    margin-left: 1vh;
-    margin-right: 1.5vh;
+    width: 2.5vh;
+    margin-left: 0rem;
+    margin-right: 0rem;
   }
 `;
 
@@ -202,6 +241,52 @@ const AssignmentTitle = styled.span`
   flex-shrink: 1;
   overflow: hidden;
   margin-right: 0.8rem;
+
+  font-size: 16px;
+  @media (max-width: 1024px) {
+    font-size: 13px;
+  }
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+  @media (max-width: 480px) {
+    font-size: 10px;
+  }
+`;
+
+const SectionTitle = styled.span`
+  margin-right: 0.6rem;
+  cursor: pointer;
+  display: inline-block;
+  flex-shrink: 1;
+  overflow: hidden;
+  font-size: 16px;
+
+  @media (max-width: 1024px) {
+    font-size: 13px;
+  }
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+  @media (max-width: 480px) {
+    font-size: 10px;
+  }
+`;
+
+const FileSize = styled.span`
+  color: var(--main-color);
+  font-size: 0.9rem;
+  font-size: 14px;
+
+  @media (max-width: 1024px) {
+    font-size: 11px;
+  }
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
+  @media (max-width: 480px) {
+    font-size: 8px;
+  }
 `;
 
 const AssignmentDate = styled.span`
@@ -209,24 +294,21 @@ const AssignmentDate = styled.span`
   whitespace: nowrap;
   flexshrink: 0;
   margin-left: 1vh;
+  font-size: 14px;
 
   @media (max-width: 1024px) {
-    font-size: 12px;
+    font-size: 11px;
     margin-left: 0.6vh;
   }
   @media (max-width: 768px) {
-    font-size: 9.5px;
+    font-size: 10px;
     margin-left: 0.3vh;
   }
   @media (max-width: 480px) {
-    font-size: 6px;
+    font-size: 8px;
     margin-left: 0vh;
   }
 `;
-
-const formatPeriod = (startDate, endDate) => {
-  return startDate && endDate ? `${startDate} ~ ${endDate}` : "기간 미정";
-};
 
 const CurriculumSection = ({
   lecture,
@@ -296,7 +378,7 @@ const CurriculumSection = ({
                 )}
                 <Play src={PlayIcon} alt="Play Icon" />
               </VideoContainer>
-              <VideoContents>
+              <VideoInformation>
                 <CurriculumTitle>
                   {subSection.title ?? "영상 제목 없음"}
                 </CurriculumTitle>
@@ -307,44 +389,43 @@ const CurriculumSection = ({
                     <BlackLine />
                   </div>
 
-                  <span
-                    style={
-                      {
-                        // whiteSpace: "nowrap",
-                      }
-                    }
-                  >
+                  <span>
                     {formatDate(subSection?.startDate)} ~{" "}
                     {formatDate(subSection?.endDate)}
                   </span>
                 </VideoDetails>
-              </VideoContents>
+              </VideoInformation>
             </>
           )}
 
           {subSection.contentType === "material" && (
-            <>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", width: "100%" }}>
               <MaterialIcon src={Material} />
               <MaterialSection>
-                <span style={{ marginRight: "0.6rem" }}>
-                  {materialTruncatedText(subSection.originalFilename) ??
-                    "자료 없음"}
-                </span>
-                <span
+                <div
                   style={{
-                    color: "var(--main-color)",
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: "0.5vh",
                   }}
                 >
-                  {subSection.fileSize ?? " "}
-                </span>
+                <SectionTitle>
+                  {materialTruncatedText(subSection.originalFilename) ?? "자료 없음"}
+                </SectionTitle>
+                <FileSize>{sub?.fileSize || ""}</FileSize>
+                </div>
               </MaterialSection>
-            </>
+            </div>
           )}
 
           {subSection.contentType === "assignment" && (
-            <>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem", width: "100%" }}>  
               <MaterialIcon src={Assignment} alt="assignment icon" />
-              <MaterialSection>
+              <MaterialSection
+                style={{
+                  flexWrap: "wrap",
+                }}
+              >
                 <AssignmentTitle>
                   {truncatedText(subSection.assignmentTitle) ?? "과제 없음"}
                 </AssignmentTitle>
@@ -353,7 +434,7 @@ const CurriculumSection = ({
                   {formatDate(subSection?.endDate)}
                 </AssignmentDate>
               </MaterialSection>
-            </>
+            </div>
           )}
         </>
       )}

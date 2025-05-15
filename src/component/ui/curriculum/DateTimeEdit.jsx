@@ -35,18 +35,18 @@ const DateTimeContainer = styled.div`
     overflow: hidden;
 
     @media (max-width: 1024px) {
-      width: 26vh;
+      width: 50vh;
       font-size: 11.5px;
     }
 
     @media (max-width: 768px) {
-      width: 30vh;
+      width: 40vh;
       font-size: 10px;
       border-radius: 7px;
     }
 
     @media (max-width: 480px) {
-      width: 45vh;
+      width: 40vh;
       border-radius: 5px;
     }
 

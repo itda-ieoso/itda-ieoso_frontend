@@ -86,7 +86,7 @@ const TabLink = styled(NavLink)`
   text-align: center;
   padding: 5px 10px;
   text-decoration: none;
-  color: var(--darkgrey-color);
+  color: #767676;
   font-weight: 500;
   font-size: 18px;
   position: relative;
@@ -94,7 +94,6 @@ const TabLink = styled(NavLink)`
 
   &.active {
     color: var(--black-color);
-    font-weight: 700;
     &::after {
       content: "";
       position: absolute;

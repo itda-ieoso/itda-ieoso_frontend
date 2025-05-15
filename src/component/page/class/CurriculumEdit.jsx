@@ -17,32 +17,24 @@ import { Description, StyleOutlined } from "@mui/icons-material";
 
 const CurriculumPage = styled.div`
   display: flex;
-  margin-top: 1rem;
   width: 100%;
 `;
 
 const Curriculum = styled.div`
   flex: 1;
   padding: 3.5vh;
-  padding-right: 0vh;
   border-radius: 8px;
 
   @media (max-width: 1024px) {
-    padding: 2.5vh;
-    padding-right: 0vh;
-    border-radius: 9px;
+    padding: 3.25vh;
   }
 
   @media (max-width: 768px) {
-    padding: 2vh;
-    padding-right: 0vh;
-    border-radius: 9px;
+    padding: 3vh;
   }
 
   @media (max-width: 480px) {
-    padding: 0vh;
-    /* margin-left: 3vh; */
-    border-radius: 9px;
+    padding: 3vh 1vh;
   }
 `;
 
@@ -69,13 +61,12 @@ const Section = styled.div`
 
 const LectureSection = styled.div`
   display: flex;
-  border-radius: 12px;
-  margin: 1rem 0rem;
+  border-radius: 14px;
   cursor: pointer;
   position: relative;
   align-items: flex-end;
   background-color: var(--main-color);
-  padding: 1rem 1.5rem;
+  padding: 2vh 2.5vh;
 
   ${({ isEditing }) =>
     isEditing &&
@@ -105,36 +96,35 @@ const LectureSection = styled.div`
 `;
 
 const LectureTitle = styled.h1`
-  font-size: 2rem;
+  font-size: 24px;
   font-weight: 700;
   color: var(--white-color);
   margin: 0;
+  margin-bottom: -0.2rem;
 
   @media (max-width: 1024px) {
-    font-size: 27px;
+    font-size: 24px;
   }
   @media (max-width: 768px) {
-    font-size: 19px;
+    font-size: 21px;
   }
-
   @media (max-width: 480px) {
-    font-size: 15px;
+    font-size: 18px;
+    font-weight: 650;
   }
-
   @media (max-width: 376px) {
-    font-size: 12.8px;
-    font-weight: 600;
+    font-size: 17px;
   }
 `;
 
 const LectureDescriptionSection = styled.div`
   display: flex;
-  border-radius: 12px;
-  margin: 1.7vh 0vh;
+  border-radius: 14px;
+  margin: 1.15rem 0rem;
   cursor: pointer;
   position: relative;
   background-color: var(--grey-color);
-  padding: 0.15rem 1.5rem;
+  padding: 2vh 2.5vh;
   ${({ isEditing }) =>
     isEditing &&
     `
@@ -142,31 +132,27 @@ const LectureDescriptionSection = styled.div`
   `}
 
   @media (max-width: 1024px) {
-    padding: 0vh 1.7vh;
-    margin: 1vh 0vh;
-    border-radius: 10px;
+    padding: 1.5vh 1.7vh;
   }
 
   @media (max-width: 768px) {
-    padding: 0vh 1.5vh;
     border-radius: 9px;
-    margin: 1.2vh 0vh;
   }
 
   @media (max-width: 480px) {
-    padding: 0.3vh 3vh;
-    margin: 1.2vh 0vh;
+    padding: 1.7vh 2vh;
+    margin: 2vh 0vh;
+    border-radius: 7px;
+    box-sizing: border-box;
   }
 
   @media (max-width: 376px) {
-    padding: 0.3vh 2vh;
-    margin: 1vh 0vh;
-    border-radius: 7px;
+    margin: 2.3vh 0vh;
   }
 `;
 
 const EditingDescription = styled.input`
-  font-size: 1.555rem;
+  font-size: 21px;
   font-weight: 650;
   letter-spacing: -1px;
   width: 100%;
@@ -178,17 +164,17 @@ const EditingDescription = styled.input`
   margin: 1.5vh 0vh;
 
   @media (max-width: 1024px) {
-    font-size: 21px;
+    font-size: 19px;
     padding: 0.8vh 1vh;
     margin: 0.8vh 0vh;
   }
 
   @media (max-width: 768px) {
-    font-size: 15.5px;
+    font-size: 17px;
   }
 
   @media (max-width: 376px) {
-    font-size: 9.5px;
+    font-size: 15px;
     border: 1.3px solid var(--darkgrey-color);
     border-radius: 6px;
     font-weight: 600;
@@ -196,39 +182,25 @@ const EditingDescription = styled.input`
   }
 `;
 
-const LectureDescription = styled.h1`
-  font-size: 1.555rem;
-  font-weight: 650;
-  letter-spacing: -1px;
+const LectureDescription = styled.span`
+  font-size: 21px;
+  font-weight: 700;
 
   @media (max-width: 1024px) {
-    font-size: 21px;
+    font-size: 19px;
   }
 
   @media (max-width: 768px) {
-    font-size: 15.5px;
+    font-size: 17px;
+    font-weight: 670;
   }
-
   @media (max-width: 480px) {
-    font-size: 11.5px;
+    font-size: 14px;
+    font-weight: 600;
   }
-
   @media (max-width: 376px) {
-    font-size: 10px;
+    font-size: 12px;
   }
-`;
-
-const Icon = styled.img`
-  width: 1.4rem;
-  height: 1.4rem;
-`;
-
-const DeleteButton = styled.img`
-  position: absolute;
-  bottom: 2.5rem;
-  right: 2.5rem;
-  width: 1.15rem;
-  cursor: pointer;
 `;
 
 export const toLocalDateTime = (isoString) => {

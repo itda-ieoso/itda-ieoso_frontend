@@ -6,20 +6,16 @@ import {
   useOutletContext,
 } from "react-router-dom";
 import styled from "styled-components";
-import LogoSymbol from "../../img/logo/itda_logo_symbol.svg";
 import CurriculumSidebar from "../../ui/class/CurriculumSidebar";
-import ClassThumbnail from "../../img/class/class_thumbnail.svg";
 import DoneIcon from "../../img/class/check/done_icon.svg";
 import UndoneIcon from "../../img/class/check/undone_icon.svg";
 import Assignment from "../../img/icon/curriculum/assignmenticon.svg";
 import Material from "../../img/icon/curriculum/materialicon.svg";
 import PlayIcon from "../../img/class/play_icon.svg";
-import SelectedSection from "../../img/class/check/sel_sec.svg";
 import UnselectedSection from "../../img/class/check/unsel_sec.svg";
 import DoneSection from "../../img/class/check/done_sec.svg";
 import EditButton from "../../ui/class/EditButton";
 import VideoDefaultThumbnail from "../../img/class/video_thumbnail.svg";
-import Close from "@mui/icons-material/Close";
 import api from "../../api/api";
 import { UsersContext } from "../../contexts/usersContext";
 import { getYouTubeThumbnail } from "../../ui/curriculum/EditableSection";
@@ -32,7 +28,10 @@ const CurriculmContainer = styled.main`
 
   @media (max-width: 1024px) {
     padding: 3.25vh;
-    padding-left: 1.5vh;
+  }
+
+  @media (max-width: 768px) {
+    padding: 3vh;
   }
 
   @media (max-width: 480px) {
@@ -47,7 +46,7 @@ const Section = styled.div`
   margin: 1.15rem 0rem;
   background-color: #ffffff;
   cursor: pointer;
-  width: 98.8%;
+  width: 97.5%;
 
   @media (max-width: 1024px) {
     padding: 1.35vh 1.55vh;
@@ -67,17 +66,18 @@ const Section = styled.div`
 `;
 
 const LectureTitle = styled.h1`
-  font-size: 2.3rem;
+  font-size: 24px;
   font-weight: 700;
   color: var(--main-color);
   margin: 0;
   margin-bottom: -0.2rem;
 
   @media (max-width: 1024px) {
-    font-size: 30px;
+    font-size: 24px;
   }
+    
   @media (max-width: 768px) {
-    font-size: 24.5px;
+    font-size: 21px;
   }
 
   @media (max-width: 480px) {
@@ -92,58 +92,56 @@ const LectureTitle = styled.h1`
 
 const LectureDate = styled.span`
   color: #969696;
-  font-size: 23px;
-
-  font-weight: 510;
+  font-size: 16px;
+  font-weight: 450;
   margin: 0 1rem;
   margin-left: 1.8vh;
 
   @media (max-width: 1024px) {
-    font-size: 19px;
+    font-size: 14px;
     margin-left: 1.2vh;
   }
 
   @media (max-width: 768px) {
-    font-size: 15.5px;
+    font-size: 12px;
     margin-left: 1vh;
   }
 
   @media (max-width: 480px) {
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 450;
   }
 
   @media (max-width: 376px) {
-    font-size: 9.5px;
-    font-weight: 500;
+    font-size: 10px;
+    font-weight: 450;
   }
 `;
 
 const LectureDescription = styled.span`
-  font-size: 1.6rem;
+  font-size: 21px;
   font-weight: 700;
 
   @media (max-width: 1024px) {
-    font-size: 21px;
+    font-size: 19px;
   }
 
   @media (max-width: 768px) {
-    font-size: 16.5px;
+    font-size: 17px;
     font-weight: 670;
   }
   @media (max-width: 480px) {
-    font-size: 11.5px;
+    font-size: 14px;
     font-weight: 600;
   }
   @media (max-width: 376px) {
-    font-size: 10px;
+    font-size: 12px;
   }
 `;
 
 const LectureDescriptionSection = styled.div`
   display: flex;
   align-items: center;
-  padding: 1.3rem 1.5rem;
   border-radius: 14px;
   margin: 1.15rem 0rem;
   cursor: pointer;
@@ -153,7 +151,7 @@ const LectureDescriptionSection = styled.div`
   padding: 2vh 2.5vh;
 
   @media (max-width: 1024px) {
-    padding: 1vh 1.7vh;
+    padding: 1.5vh 1.7vh;
     width: 98%;
   }
 
@@ -176,28 +174,28 @@ const LectureDescriptionSection = styled.div`
 `;
 
 const CurriculumTitle = styled.h3`
-  font-size: 1.65rem;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: -0.3rem;
   margin-top: 0.5rem;
-  letter-spacing: -1px;
 
   @media (max-width: 1024px) {
-    font-size: 21px;
+    font-size: 20px;
   }
 
   @media (max-width: 768px) {
-    font-size: 16.5px;
+    font-size: 16px;
     margin-left: -2vh;
   }
 
   @media (max-width: 480px) {
-    font-size: 11px;
+    font-size: 12px;
     padding: 0.3vh 1vh;
-    font-weight: 630;
+    font-weight: 600;
   }
 
   @media (max-width: 376px) {
+    font-size: 11px;
     font-weight: 600;
   }
 `;
@@ -240,10 +238,10 @@ const MaterialSection = styled.div`
   font-size: 1.07rem;
 
   @media (max-width: 1024px) {
-    padding: 1.3vh 1.5vh;
+    padding: 1.5vh;
   }
   @media (max-width: 768px) {
-    padding: 1.5vh;
+    padding: 1.7vh;
   }
   @media (max-width: 480px) {
     border-radius: 4px;
@@ -251,43 +249,43 @@ const MaterialSection = styled.div`
 `;
 
 const Icon = styled.img`
-  width: 4.3vh;
+  width: 3.7vh;
   margin-left: 1rem;
   margin-right: 1rem;
 
   @media (max-width: 1024px) {
-    width: 2.1vh;
-    margin-left: 0.6vh;
+    width: 3.2vh;
     margin-right: 1.1vh;
   }
 
   @media (max-width: 768px) {
-    width: 2vh;
+    width: 2.8vh;
   }
 
   @media (max-width: 480px) {
-    width: 3vh;
-    margin-right: 0.8vh;
+    width: 2.5vh;
+    margin-left: 0rem;
+    margin-right: 0rem;
   }
 `;
 
 const SectionIcon = styled.img`
   margin-left: auto;
   margin-right: 1.35rem;
-  width: 2.7vh;
+  width: 2.5vh;
 
   @media (max-width: 1024px) {
-    width: 2.5vh;
+    width: 2.3vh;
     margin-right: 1.3vh;
   }
 
   @media (max-width: 768px) {
-    width: 1.9vh;
+    width: 2.2vh;
     margin-right: 1vh;
   }
 
   @media (max-width: 480px) {
-    width: 2.5vh;
+    width: 2vh;
     margin-right: 1vh;
   }
 `;
@@ -314,26 +312,22 @@ const VideoInformation = styled.div`
 `;
 
 const VideoDetails = styled.p`
-  font-size: 17.3px;
-  color: var(--black-color);
+  font-size: 14px;
+  color: #909090;
   display: flex;
+  align-items: center;
   gap: 1vh;
 
-  @media (max-width: 1200px) {
-    font-size: 15px;
-  }
-
   @media (max-width: 1024px) {
-    font-size: 13.5px;
+    font-size: 11px;
     gap: 0.5vh;
   }
   @media (max-width: 768px) {
-    font-size: 11px;
+    font-size: 10px;
     margin-left: -2vh;
   }
-
   @media (max-width: 480px) {
-    font-size: 7px;
+    font-size: 8px;
     margin-left: -1vh;
   }
 
@@ -353,16 +347,16 @@ const VideoDetails = styled.p`
 `;
 
 const BlackLine = styled.span`
-  border-left: 1.5px solid black;
+  border-left: 1px solid #909090;
   height: 1rem;
 
   @media (max-width: 768px) {
-    border-left: 1px solid black;
+    border-left: 1px solid #909090;
     height: 1.3vh;
   }
 
   @media (max-width: 480px) {
-    border-left: 0.5px solid black;
+    border-left: 0.5px solid #909090;
   }
 `;
 
@@ -390,27 +384,29 @@ const SectionTitle = styled.span`
   display: inline-block;
   flex-shrink: 1;
   overflow: hidden;
+  font-size: 16px;
 
   @media (max-width: 1024px) {
-    font-size: 15.7px;
+    font-size: 13px;
   }
   @media (max-width: 768px) {
     font-size: 12px;
   }
   @media (max-width: 480px) {
-    font-size: 8.5px;
+    font-size: 10px;
   }
 `;
 
 const FileSize = styled.span`
   color: var(--main-color);
   font-size: 0.9rem;
+  font-size: 14px;
 
   @media (max-width: 1024px) {
-    font-size: 14px;
+    font-size: 11px;
   }
   @media (max-width: 768px) {
-    font-size: 10.5px;
+    font-size: 10px;
   }
   @media (max-width: 480px) {
     font-size: 8px;
@@ -419,30 +415,31 @@ const FileSize = styled.span`
 
 const AssignmentDate = styled.span`
   color: var(--main-color);
+  font-size: 14px;
   margintop: 0.3rem;
   // whitespace: nowrap;
   flexshrink: 0;
 
   @media (max-width: 1024px) {
-    font-size: 14.5px;
+    font-size: 11px;
   }
   @media (max-width: 768px) {
     font-size: 10px;
   }
   @media (max-width: 480px) {
-    font-size: 7px;
+    font-size: 8px;
   }
 `;
 
 const CheckIcon = styled.img`
   margin-left: auto;
-  width: 1.2rem;
+  width: 2vh;
 
   @media (max-width: 768px) {
     width: 1.5vh;
   }
   @media (max-width: 480px) {
-    width: 1.8vh;
+    width: 1.3vh;
   }
 `;
 
@@ -773,7 +770,7 @@ const Curriculum = () => {
         completedLectures={allCompletedLectures}
       />
       <CurriculmContainer>
-        <div style={{ display: "flex", alignItems: "flex-end" }}>
+        <div style={{ display: "flex", alignItems: "baseline" }}>
           <LectureTitle>{activeLecture?.lectureTitle}</LectureTitle>
 
           <LectureDate>
@@ -821,7 +818,7 @@ const Curriculum = () => {
                   <VideoInformation>
                     <CurriculumTitle>{sub.title}</CurriculumTitle>
                     <VideoDetails>
-                      <div style={{ whiteSpace: "nowrap" }}>
+                      <div style={{whiteSpace: 'nowrap'}}>
                         <span>{activeLecture.instructorName}</span>
                         <BlackLine />
                       </div>

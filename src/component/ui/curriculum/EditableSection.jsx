@@ -127,20 +127,20 @@ const VideoTitleInput = styled.input`
   box-sizing: border-box;
 
   @media (max-width: 1024px) {
-    font-size: 11.5px;
+    font-size: 16px;
     padding: 0.9vh;
     border: 1.5px solid #c3c3c3;
   }
 
   @media (max-width: 768px) {
-    font-size: 9.5px;
+    font-size: 10px;
     padding: 0.8vh;
     border: 1.35px solid #c3c3c3;
     border-radius: 6px;
   }
 
   @media (max-width: 480px) {
-    font-size: 6.6px;
+    font-size: 8px;
     padding: 1.2vh;
     border: 1px solid #c3c3c3;
     border-radius: 4.5px;
@@ -167,20 +167,20 @@ const VideoLinkInput = styled.input`
   box-sizing: border-box;
 
   @media (max-width: 1024px) {
-    font-size: 11px;
+    font-size: 13px;
     padding: 0.9vh;
     border: 1.5px solid #c3c3c3;
   }
 
   @media (max-width: 768px) {
-    font-size: 9.3px;
+    font-size: 10px;
     padding: 0.8vh;
     border: 1.35px solid #c3c3c3;
     border-radius: 6px;
   }
 
   @media (max-width: 480px) {
-    font-size: 6.6px;
+    font-size: 8px;
     padding: 1.2vh;
     border: 1px solid #c3c3c3;
     border-radius: 4px;
@@ -205,27 +205,27 @@ const VideoConfirmButton = styled.button`
   cursor: pointer;
 
   @media (max-width: 1024px) {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 550;
     width: 33%;
     margin-left: 0.8vh;
   }
 
   @media (max-width: 768px) {
-    font-size: 8.5px;
+    font-size: 10px;
     margin-left: 0.6vh;
     border-radius: 4px;
   }
 
   @media (max-width: 480px) {
     width: 32.5%;
-    font-size: 5.2px;
+    font-size: 8px;
     border-radius: 3px;
   }
 
   @media (max-width: 376px) {
     width: 33%;
-    font-size: 4.7px;
+    font-size: 6px;
     padding: 0px;
     border-radius: 2.8px;
   }

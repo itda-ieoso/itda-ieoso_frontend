@@ -107,7 +107,7 @@ const SectionHeader = styled.div`
 
   @media (max-width: 768px) {
     font-size: 14px;
-    padding: 0.7vh 1vh;
+    padding: 1vh 1vh;
     border-radius: 7px;
   }
 
@@ -125,40 +125,21 @@ const ListItem = styled.li`
   gap: 0.5rem;
   padding-left: 1.9vh;
   border-radius: 0.5rem;
-  font-size: 0.99rem;
+  font-size: 12px;
   font-weight: 500;
   position: relative;
 
   @media (max-width: 1024px) {
-    font-size: 14.5px;
+    font-size: 12px;
   }
 
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: 11px;
     gap: 0.5vh;
   }
 
   @media (max-width: 480px) {
-    font-size: 8.3px;
-  }
-`;
-
-const SubsectionContainer = styled.div`
-  padding-left: 1.4rem;
-  margin-top: 0.3rem;
-`;
-
-const SubsectionItem = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 0;
-  position: relative;
-  font-size: 0.95rem;
-  font-weight: semi-bold;
-
-  & > img {
-    position: absolute;
-    right: 0;
+    font-size: 10px;
   }
 `;
 
@@ -173,47 +154,45 @@ const TruncatedText = styled.span`
 
 const SectionIcon = styled.img`
   margin-left: auto;
-  width: 2.4vh;
+  width: 2.5vh;
 
   @media (max-width: 1024px) {
-    width: 19px;
+    width: 2.2vh;
   }
 
   @media (max-width: 768px) {
-    width: 1.6vh;
-  }
-
-  @media (max-width: 480px) {
     width: 2vh;
   }
 
+  @media (max-width: 480px) {
+    width: 1.8vh;
+  }
+
   @media (max-width: 440px) {
-    width: 1.2vh;
+    width: 1.6vh;
   }
 `;
 
 const Icon = styled.img`
-  width: 1.4rem;
-  @media (max-width: 1024px) {
-    width: 17px;
-  }
+  width: ${props => props.type === 'video' ? '1.2rem' : '1rem'};
 
   @media (max-width: 768px) {
-    width: 15px;
+    width: ${props => props.type === 'video' ? '1rem' : '0.8rem'};
   }
 
   @media (max-width: 480px) {
-    width: 2.2vh;
+    width: ${props => props.type === 'video' ? '1rem' : '0.8rem'};
   }
 
   @media (max-width: 440px) {
-    width: 1.25vh;
+    width: ${props => props.type === 'video' ? '1rem' : '0.8rem'};
   }
 `;
 
 const CheckIcon = styled.img`
   margin-left: auto;
   margin-right: 2.5vh;
+  width: 8px;
 
   @media (max-width: 1024px) {
     margin-right: 1.3vh;
@@ -224,7 +203,7 @@ const CheckIcon = styled.img`
   }
 
   @media (max-width: 480px) {
-    width: 1.3vh;
+    width: 6px;
   }
 `;
 
@@ -358,7 +337,7 @@ const CurriculumSidebar = ({
                         marginBottom: "10px",
                       }}
                     >
-                      <Icon src={getIconByType(subSection.contentType)} />
+                      <Icon src={getIconByType(subSection.contentType)} type={subSection.contentType} />
                       <TruncatedText width="10rem">
                         {getSubSectionTitle(subSection)}
                       </TruncatedText>
