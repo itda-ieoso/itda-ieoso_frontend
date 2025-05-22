@@ -72,8 +72,8 @@ const StyledQuill = styled(ReactQuill)`
 
 const StyledButton = styled.a`
   position: fixed;
-  bottom: 2rem;
-  right: 4rem;
+  bottom: 12vh;
+  right: 9vw;
   cursor: pointer;
   border: none;
   background-color: transparent;
@@ -104,12 +104,12 @@ const StyledButton = styled.a`
   }
 
   @media all and (max-width: 768px) {
-    right: 0.2rem;
+    right: 0rem;
     width: 75px;
   }
 
   @media all and (max-width: 479px) {
-    right: -1.5rem;
+    bottom: 9vh;
   }
 `;
 

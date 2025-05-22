@@ -9,18 +9,27 @@ import { ModalOverlay, AlertModalContainer } from "../modal/ModalStyles";
 
 const StyledButton = styled.div`
   position: fixed;
-  bottom: 2rem;
-  right: 4rem;
-  width: 6vh;
+  bottom: 12vh;
+  right: 9vw;
+  width: 60px;
   cursor: pointer;
 
   @media (max-width: 1024px) {
-    width: 4.5vh;
+    width: 35px;
   }
+
+  @media (max-width: 768px) {
+    width: 45px;
+  }
+
+  @media (max-width: 480px) {
+    width: 42px;
+    right: 6.8vw;
+    bottom: 9vh;
+  }
+
   @media (max-width: 376px) {
-    width: 4vh;
-    bottom: 4.6%;
-    right: 5%;
+    width: 32px;
   }
 `;
 
