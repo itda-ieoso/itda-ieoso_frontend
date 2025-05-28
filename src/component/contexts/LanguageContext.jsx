@@ -58,6 +58,7 @@ export const LanguageProvider = ({ children }) => {
       while (walker.nextNode()) {
         textNodes.push(walker.currentNode);
       }
+
       for (let i = 0; i < textNodes.length && i < translatedArray.length; i++) {
         const node = textNodes[i];
         const parent = node.parentElement;
@@ -74,6 +75,61 @@ export const LanguageProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("번역 실패:", error);
+    }
+  };
+
+
+  // 추가 함수수
+  const translateNodeTexts = async (rootNode, lang = targetLang) => {
+    if (lang === browserLang || !rootNode) return;
+
+    const textNodes = [];
+
+    const walker = document.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT, {
+      acceptNode: (node) => {
+        if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+        if (["SCRIPT", "STYLE"].includes(node.parentElement.tagName))
+          return NodeFilter.FILTER_REJECT;
+        if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+
+    while (walker.nextNode()) {
+      textNodes.push(walker.currentNode);
+    }
+
+    const originalTexts = textNodes.map((n) => n.nodeValue.trim());
+    if (originalTexts.length === 0) return;
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/translate`,
+        {
+          text: originalTexts.join("\n"),
+          sourceLang: "auto",
+          targetLang: lang,
+        },
+      );
+
+      const translatedArray = response.data.data.split("\n");
+
+      for (let i = 0; i < textNodes.length && i < translatedArray.length; i++) {
+        const node = textNodes[i];
+        const parent = node.parentElement;
+        const translateId = parent.getAttribute("data-translate-id");
+
+        if (translateId === "day-월") node.nodeValue = "Mon";
+        else if (translateId === "day-화") node.nodeValue = "Tue";
+        else if (translateId === "day-수") node.nodeValue = "Wed";
+        else if (translateId === "day-목") node.nodeValue = "Thu";
+        else if (translateId === "day-금") node.nodeValue = "Fri";
+        else if (translateId === "day-토") node.nodeValue = "Sat";
+        else if (translateId === "day-일") node.nodeValue = "Sun";
+        else node.nodeValue = translatedArray[i];
+      }
+    } catch (error) {
+      console.error("Modal 내부 번역 실패:", error);
     }
   };
 
@@ -96,6 +152,7 @@ export const LanguageProvider = ({ children }) => {
         targetLang,
         setTargetLang,
         translateVisibleTexts,
+        translateNodeTexts,
       }}
     >
       {children}
