@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import React, { useRef, useEffect } from "react";
+import { useLanguage } from "../../contexts/LanguageContext";
 
-export const ModalOverlay = styled.div`
+const StyledModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -12,6 +14,21 @@ export const ModalOverlay = styled.div`
   align-items: center;
   z-index: 1000;
 `;
+
+// 모달창 번역 기능 때문에 넣긴 했는데, 혹시 코드 구성 불편하시면 따로 빼겠습니다!
+export const ModalOverlay = ({ children }) => {
+  const ref = useRef();
+  const { translateNodeTexts } = useLanguage();
+
+  useEffect(() => {
+    if (ref.current) {
+      translateNodeTexts(ref.current);
+    }
+  }, []);
+
+  return <StyledModalOverlay ref={ref}>{children}</StyledModalOverlay>;
+};
+
 
 export const ModalContent = styled.div`
   background-color: white;
