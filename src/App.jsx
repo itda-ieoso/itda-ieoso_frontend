@@ -1,36 +1,35 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import { UsersProvider } from "./component/contexts/usersContext.jsx";
-import { handleLogout } from "./component/api/tokenManager.js";
+import { UsersProvider } from "./contexts/usersContext.jsx";
+import { handleLogout } from "./api/tokenManager.js";
 import {
   ModalOverlay,
   AlertModalContainer,
-} from "./component/ui/modal/ModalStyles.jsx";
-
-import LandingPage from "./component/page/LandingPage.jsx";
-import LogIn from "./component/page/users/LogIn.jsx";
-import ClassList from "./component/page/ClassList.jsx";
-import Create from "./component/page/class/Create.jsx";
-import Participate from "./component/page/Participate.jsx";
-import Class from "./component/page/Class.jsx";
-import ClassOverview from "./component/page/class/Overview.jsx";
-import ClassNotice from "./component/page/class/Notice.jsx";
-import NoticeCreate from "./component/page/class/NoticeCreate.jsx";
-import ClassCurriculum from "./component/page/class/Curriculum.jsx";
-import ClassCurriculumEdit from "./component/page/class/CurriculumEdit.jsx";
-import Admin from "./component/page/class/Admin.jsx";
-import ClassSummary from "./component/page/class/admin/Summary.jsx";
-import ClassStudents from "./component/page/class/admin/Students.jsx";
-import StudentDetail from "./component/page/class/admin/StudentDetail.jsx";
-import Setting from "./component/page/class/admin/Setting.jsx";
-import Dashboard from "./component/page/dashboard/Dashboard.jsx";
-import ClassPlaying from "./component/page/class/Playing.jsx";
-import ClassAssignmentSubmit from "./component/page/class/AssignmentSubmit.jsx";
-import GoogleAuthCallback from "./component/page/users/GoogleAuthCallback.jsx";
-import GoogleAccountLink from "./component/page/users/GoogleAccountLink.jsx";
-import { LanguageProvider } from "./component/contexts/LanguageContext.jsx";
-import ChannelTalk from "./component/ui/ChannelTalk.jsx";
-import AssignmentBrowse from "./component/page/class/AssignmentBrowse.jsx";
+} from "./component/modal/ModalStyles.jsx";
+import LandingPage from "./page/LandingPage.jsx";
+import LogIn from "./page/users/LogIn.jsx";
+import ClassList from "./page/ClassList.jsx";
+import Create from "./page/class/Create.jsx";
+import Participate from "./page/Participate.jsx";
+import Class from "./page/Class.jsx";
+import ClassOverview from "./page/class/Overview.jsx";
+import ClassNotice from "./page/class/Notice.jsx";
+import NoticeCreate from "./page/class/NoticeCreate.jsx";
+import ClassCurriculum from "./page/class/Curriculum.jsx";
+import ClassCurriculumEdit from "./page/class/CurriculumEdit.jsx";
+import Admin from "./page/class/Admin.jsx";
+import ClassSummary from "./page/class/admin/Summary.jsx";
+import ClassStudents from "./page/class/admin/Students.jsx";
+import StudentDetail from "./page/class/admin/StudentDetail.jsx";
+import Setting from "./page/class/admin/Setting.jsx";
+import Dashboard from "./page/dashboard/Dashboard.jsx";
+import ClassPlaying from "./page/class/Playing.jsx";
+import ClassAssignmentSubmit from "./page/class/AssignmentSubmit.jsx";
+import GoogleAuthCallback from "./page/users/GoogleAuthCallback.jsx";
+import GoogleAccountLink from "./page/users/GoogleAccountLink.jsx";
+import { LanguageProvider } from "./contexts/LanguageContext.jsx";
+import ChannelTalk from "./component/ChannelTalk.jsx";
+import AssignmentBrowse from "./page/class/AssignmentBrowse.jsx";
 
 // 페이지 이동 시 스크롤을 맨 위로 이동시키는 컴포넌트
 function ScrollToTop() {

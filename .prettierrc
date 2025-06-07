@@ -1,11 +1,5 @@
 {
   "semi": true,
   "singleQuote": false,
-  "tabWidth": 2,
-  "trailingComma": "all",
-  "pluginSearchDirs": ["./node_modules"],
-  "styled-components": {
-    "displayName": true,
-    "prettier": true
-  }
+  "trailingComma": "all"
 }
